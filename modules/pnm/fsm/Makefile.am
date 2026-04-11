@@ -21,6 +21,7 @@ include $(top_srcdir)/build-aux/am/guile.am
 
 SOURCES = \
 	pbm.scm	\
+	pgm.scm	\
 	pbm-context.scm
 
 BUILT_SOURCES = \
@@ -31,6 +32,7 @@ INSTALL += \
 
 EXTRA_DIST += \
 	pbm.scm	\
+	pgm.scm \
 	fsm.puml
 
 moddir=$(prefix)/share/guile/site/$(GUILE_EFFECTIVE_VERSION)/pnm/fsm/
@@ -42,7 +44,7 @@ GUILE_SMC_CONTEXT_ARGS = \
 	--type functional/char \
 	-m "(pnm fsm context)"
 
-GUILE_SMC_ARGS = \
+GUILE_SMC_PBM_ARGS = \
 	--log-driver file \
 	--log-opt "file=pbm.log" \
 	-L $(abs_top_srcdir)/modules:$(abs_top_builddir)/modules \
@@ -51,12 +53,23 @@ GUILE_SMC_ARGS = \
 	-U "((pnm fsm context) (pnm fsm pbm-context))" \
 	--validate
 
+GUILE_SMC_PGM_ARGS = \
+	--log-driver file \
+	--log-opt "file=pbm.log" \
+	-L $(abs_top_srcdir)/modules:$(abs_top_builddir)/modules \
+	--fsm-name pgm-fsm \
+	--fsm-module "(pnm fsm pgm)" \
+	-U "((pnm fsm context) (pnm fsm pgm-context))" \
+	--validate
+
 GUILE_SMC_ENV = GUILE_AUTO_COMPILE=0
 
 if ENABLE_SMC_STANDALONE_MODE
 GUILE_SMC_CONTEXT_ARGS += \
 	--standalone
-GUILE_SMC_ARGS += \
+GUILE_SMC_PBM_ARGS += \
+	--target=guile-standalone
+GUILE_SMC_PGM_ARGS += \
 	--target=guile-standalone
 endif
 
@@ -66,7 +79,12 @@ context.scm:
 
 pbm.scm: pbm-context.scm pbm.puml
 	@echo "  SMC      $@"
-	@$(GUILE_SMC_ENV) smc compile $(GUILE_SMC_ARGS) pbm.puml > $@
+	@$(GUILE_SMC_ENV) smc compile $(GUILE_SMC_PBM_ARGS) pbm.puml > $@
+
+pgm.scm: pgm-context.scm pgm.puml
+	@echo "  SMC      $@"
+	@$(GUILE_SMC_ENV) smc compile $(GUILE_SMC_PGM_ARGS) pgm.puml > $@
+
 
 # XXX: Automake does not remove those files for some reason.
 uninstall-hook:
@@ -76,6 +94,8 @@ uninstall-hook:
 CLEANFILES += \
 	pbm.scm	\
 	pbm.log	\
+	pgm.scm	\
+	pgm.log	\
 	context.scm	\
 	context.log
 

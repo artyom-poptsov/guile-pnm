@@ -77,6 +77,26 @@
    #:getter       pnm-image-grayscale-maximum-value
    #:setter       pnm-image-grayscale-maximum-value-set!))
 
+(define-method (pnm-image->pnm (image <pgm-image>) (port <port>))
+  (let* ((width       (pnm-image-width image))
+         (height      (pnm-image-height image))
+         (grayscale   (pnm-image-grayscale-maximum-value image))
+         (data        (pnm-image-data image))
+         (data-length (vector-length data)))
+    (format port "P2~%")
+    (when (pnm-image-commentary image)
+      (format port "# ~a~%" (pnm-image-commentary image)))
+    (format port "~a ~a~%" width height)
+    (format port "~a~%" grayscale)
+    (let loop ((index 0))
+      (when (< index data-length)
+        (format port "~3a" (vector-ref data index))
+        (if (zero? (remainder (+ index 1) width))
+            (newline port)
+            (display " " port))
+        (loop (+ index 1))))
+    (newline port)))
+
 
 
 ;; image.scm ends here.

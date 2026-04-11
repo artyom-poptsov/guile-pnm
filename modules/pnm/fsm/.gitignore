@@ -2,4 +2,5 @@ context.scm
 context.log
 pbm.log
 pbm.scm
+pgm.scm
 fsm-context.log

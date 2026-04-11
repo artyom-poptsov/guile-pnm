@@ -28,10 +28,14 @@
   #:use-module (oop goops)
   #:use-module (pnm image)
   #:use-module (pnm fsm pbm)
+  #:use-module (pnm fsm pgm)
   #:use-module (pnm fsm context)
   #:use-module (pnm fsm pbm-context)
+  #:use-module (pnm fsm pgm-context)
   #:export (pbm->scm
-            scm->pbm))
+            pgm->scm
+            scm->pbm
+            scm->pgm))
 
 
 
@@ -50,6 +54,29 @@
       #:data       (assoc-ref result 'data))))
 
 (define* (scm->pbm image
+                   #:optional
+                   (port (current-output-port)))
+  (pnm-image->pnm image port))
+
+
+;; PGM
+
+(define* (pgm->scm #:optional
+                   (port (current-input-port))
+                   #:key
+                   (debug-mode? #f))
+  (let* ((fsm         (make <pgm-fsm> #:debug-mode? debug-mode?))
+         (context     (make-char-context #:port port))
+         (new-context (fsm-run! fsm context))
+         (result      (context-result new-context)))
+    (make <pgm-image>
+      #:commentary (assoc-ref result 'comment)
+      #:width      (assoc-ref result 'width)
+      #:height     (assoc-ref result 'height)
+      #:grayscale-maxiumum-value (assoc-ref result 'grayscale)
+      #:data       (assoc-ref result 'data))))
+
+(define* (scm->pgm image
                    #:optional
                    (port (current-output-port)))
   (pnm-image->pnm image port))
