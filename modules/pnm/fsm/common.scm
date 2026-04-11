@@ -1,5 +1,6 @@
 (define-module (pnm fsm common)
   #:use-module (srfi srfi-1)
+  #:use-module (pnm core error)
   #:use-module (pnm fsm context)
   #:export(throw-magic-number-error
            throw-unexpected-eof
