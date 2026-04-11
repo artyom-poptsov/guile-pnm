@@ -30,7 +30,7 @@ lookup_width --> [*]: guard:#t -> throw-format-error
 
 read_width: Read the image width value.
 read_width --> [*]: char:eof-object? -> throw-unexpected-eof
-read_width --> lookup_height: char:space? -> pbm-set-width
+read_width --> lookup_height: char:space? -> pnm-set-width
 read_width -> read_width: char:digit? -> push-event-to-buffer
 read_width --> [*]: guard:#t -> throw-format-error
 
@@ -40,8 +40,8 @@ lookup_height -> read_height: char:digit? -> push-event-to-buffer
 lookup_height --> [*]: guard:#t -> throw-format-error
 
 read_height: Read the image height value.
-read_height -> lookup_data: char:space? -> pbm-set-height
-read_height -> lookup_data: char:newline? -> pbm-set-height
+read_height -> lookup_data: char:space? -> pnm-set-height
+read_height -> lookup_data: char:newline? -> pnm-set-height
 read_height -> read_height: char:digit? -> push-event-to-buffer
 read_height --> [*]: guard:#t -> throw-format-error
 
@@ -58,7 +58,7 @@ read_data --> lookup_data: char:space? -> push-buffer-to-stanza
 read_data --> validate_image: char:eof-object? -> pbm-set-data
 
 read_comment --> [*]: char:eof-object? -> throw-unexpected-eof
-read_comment --> lookup_width: char:newline? -> pbm-append-comment
+read_comment --> lookup_width: char:newline? -> pnm-append-comment
 read_comment -> read_comment: guard:#t -> push-event-to-buffer
 
 validate_image: entry-action: pbm-validate-image
