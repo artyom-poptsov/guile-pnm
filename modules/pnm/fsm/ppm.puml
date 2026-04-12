@@ -1,0 +1,80 @@
+@startuml
+
+legend
+event-source: next-char
+endlegend
+
+[*] -> read_magic_number_1
+
+read_magic_number_1: Read the first byte of a PBM image.  It is expecting
+read_magic_number_1: to be a letter "P".
+read_magic_number_1:
+read_magic_number_1: entry-action: ppm-init-result
+read_magic_number_1 --> [*]: char:eof-object? -> throw-unexpected-eof
+read_magic_number_1 --> read_magic_number_2: char:letter-P?
+read_magic_number_1 --> [*]: guard:#t -> throw-magic-number-error
+
+read_magic_number_2: Read the second byte of a PBM image.  It is expecting
+read_magic_number_2: to be a single digit "3".
+read_magic_number_2 --> [*]: char:eof-object? -> throw-unexpected-eof
+read_magic_number_2 --> lookup_width: char:digit-three?
+read_magic_number_2 --> [*]: guard:#t -> throw-magic-number-error
+
+lookup_width: Lookup the image width value.
+lookup_width --> [*]: char:eof-object? -> throw-unexpected-eof
+lookup_width -> read_width: char:digit? -> push-event-to-buffer
+lookup_width -> lookup_width: char:newline?
+lookup_width --> read_comment: char:number-sign?
+lookup_width -> lookup_width: char:space?
+lookup_width --> [*]: guard:#t -> throw-format-error
+
+read_width: Read the image width value.
+read_width --> [*]: char:eof-object? -> throw-unexpected-eof
+read_width --> lookup_height: char:space? -> pnm-set-width
+read_width -> read_width: char:digit? -> push-event-to-buffer
+read_width --> [*]: guard:#t -> throw-format-error
+
+lookup_height: Lookup the image height value.
+lookup_height -> lookup_height: char:space?
+lookup_height -> read_height: char:digit? -> push-event-to-buffer
+lookup_height --> [*]: guard:#t -> throw-format-error
+
+read_height: Read the image height value.
+read_height -> lookup_color_value: char:space? -> pnm-set-height
+read_height -> lookup_color_value: char:newline? -> pnm-set-height
+read_height -> read_height: char:digit? -> push-event-to-buffer
+read_height --> [*]: guard:#t -> throw-format-error
+
+lookup_color_value: Lookup the image grayscale value.
+lookup_color_value -> lookup_color_value: char:space?
+lookup_color_value -> lookup_color_value: char:newline?
+lookup_color_value --> read_color_value: char:digit? -> push-event-to-buffer
+lookup_color_value --> [*]: guard:#t -> throw-format-error
+
+read_color_value: Read the grayscale maximum value.
+read_color_value -> lookup_data: char:space? -> ppm-set-color
+read_color_value -> lookup_data: char:newline? -> ppm-set-color
+read_color_value -> read_color_value: char:digit? -> push-event-to-buffer
+read_color_value --> [*]: guard:#t -> throw-format-error
+
+lookup_data: Lookup the image data.
+lookup_data --> validate_image: char:eof-object? -> ppm-set-data
+lookup_data --> read_data: char:digit? -> push-event-to-buffer
+lookup_data -> lookup_data: char:space?
+lookup_data --> validate_image: char:eof-object?
+
+read_data: Read the image data.
+read_data -> read_data: char:digit? -> push-event-to-buffer
+read_data -> lookup_data: char:newline? -> push-buffer-to-stanza
+read_data --> lookup_data: char:space? -> push-buffer-to-stanza
+read_data --> validate_image: char:eof-object? -> ppm-set-data
+
+read_comment --> [*]: char:eof-object? -> throw-unexpected-eof
+read_comment --> lookup_width: char:newline? -> pnm-append-comment
+read_comment -> read_comment: guard:#t -> push-event-to-buffer
+
+validate_image: entry-action: ppm-validate-image
+validate_image --> [*]
+
+@enduml
+

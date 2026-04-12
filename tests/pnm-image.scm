@@ -48,6 +48,41 @@
         (pnm-image->pnm img (current-output-port))))))
 
 
+(define %test-ppm-data
+  (list->vector
+   (list
+    255 0   0
+    0   255 0
+    0   0   255
+    255 255 0
+    255 255 255
+    0   0   0)))
+
+(test-equal "pnm-image->pnm: PPM"
+  (string-join
+   (list
+    "P3"
+    "# This is a commentary."
+    "3 2"
+    "255"
+    "255 0   0  "
+    "0   255 0  "
+    "0   0   255"
+    "255 255 0  "
+    "255 255 255"
+    "0   0   0  "
+    "\n")
+   "\n")
+  (let ((img (make <ppm-image>
+               #:width  3
+               #:height 2
+               #:commentary "This is a commentary."
+               #:data %test-ppm-data)))
+    (with-output-to-string
+      (lambda ()
+        (pnm-image->pnm img (current-output-port))))))
+
+
 (define exit-status (test-runner-fail-count (test-runner-current)))
 
 (test-end %test-name)

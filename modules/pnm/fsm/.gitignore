@@ -3,4 +3,5 @@ context.log
 pbm.log
 pbm.scm
 pgm.scm
+ppm.scm
 fsm-context.log
