@@ -27,11 +27,11 @@
 (define-module (pnm)
   #:use-module (oop goops)
   #:use-module (pnm image)
-  #:use-module (pnm fsm pbm)
-  #:use-module (pnm fsm pgm)
+  #:use-module (pnm fsm p1)
+  #:use-module (pnm fsm p1-context)
+  #:use-module (pnm fsm p2)
+  #:use-module (pnm fsm p2-context)
   #:use-module (pnm fsm context)
-  #:use-module (pnm fsm pbm-context)
-  #:use-module (pnm fsm pgm-context)
   #:export (pbm->scm
             pgm->scm
             scm->pbm
