@@ -1,0 +1,71 @@
+@startuml
+
+legend
+event-source: next-char
+endlegend
+
+' -------------------------------------------------------------------------------
+' entry point
+' -------------------------------------------------------------------------------
+
+[*] -> read_magic_number_1
+
+' -------------------------------------------------------------------------------
+' Magic number reading.
+' -------------------------------------------------------------------------------
+
+read_magic_number_1 --> [*]: char:eof-object? -> throw-unexpected-eof
+read_magic_number_1 --> read_magic_number_2: char:letter-P? -> push-event-to-buffer
+read_magic_number_1 --> [*]: guard:#t -> throw-magic-number-error
+
+read_magic_number_2 --> [*]: char:eof-object? -> throw-unexpected-eof
+read_magic_number_2 --> pbm_ascii:  char:digit-one? -> push-event-to-buffer
+read_magic_number_2 --> pgm_ascii:  char:digit-two? -> push-event-to-buffer
+read_magic_number_2 --> ppm_ascii:  char:digit-three? -> push-event-to-buffer
+read_magic_number_2 --> pbm_binary: char:digit-four? -> push-event-to-buffer
+read_magic_number_2 --> pgm_binary: char:digit-five? -> push-event-to-buffer
+read_magic_number_2 --> ppm_binary: char:digit-six? -> push-event-to-buffer
+read_magic_number_2 --> pam:        char:digit-seven? -> push-event-to-buffer
+read_magic_number_2 --> [*]: guard:#t -> throw-unsupported-format
+
+' -------------------------------------------------------------------------------
+' ASCII formats
+' -------------------------------------------------------------------------------
+
+pbm_ascii: entry-action: set-type-pbm-ascii
+pbm_ascii -> rewind_port
+
+pgm_ascii: entry-action: set-type-pgm-ascii
+pgm_ascii -> rewind_port
+
+ppm_ascii: entry-action: set-type-ppm-ascii
+ppm_ascii -> rewind_port
+
+' -------------------------------------------------------------------------------
+' Binary formats
+' -------------------------------------------------------------------------------
+
+pbm_binary: entry-action: set-type-pbm-binary
+pbm_binary -> rewind_port
+
+pgm_binary: entry-action: set-type-pgm-binary
+pgm_binary -> rewind_port
+
+ppm_binary: entry-action: set-type-ppm-binary
+ppm_binary -> rewind_port
+
+' -------------------------------------------------------------------------------
+' PAM format
+' -------------------------------------------------------------------------------
+
+pam: entry-action: set-type-pam
+pam -> rewind_port
+
+' -------------------------------------------------------------------------------
+' Port rewind.
+' -------------------------------------------------------------------------------
+
+rewind_port: entry-action: rewind-port
+rewind_port -> [*]
+
+@enduml

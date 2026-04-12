@@ -18,7 +18,8 @@
 ## along with Guile-PNM.  If not, see <http://www.gnu.org/licenses/>.
 
 SCM_TESTS = \
-  pnm-image.scm
+  pnm-image.scm \
+  pnm.scm
 
 TESTS = ${SCM_TESTS}
 

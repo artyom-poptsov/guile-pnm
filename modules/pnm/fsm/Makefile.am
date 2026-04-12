@@ -25,7 +25,9 @@ SOURCES = \
   p2.scm \
   p2-context.scm \
   p3.scm \
-  p3-context.scm
+  p3-context.scm \
+  pnm.scm \
+  pnm-context.scm
 
 BUILT_SOURCES = \
   context.scm
@@ -37,6 +39,7 @@ EXTRA_DIST += \
   p1.scm \
   p2.scm \
   p3.scm \
+  pnm.scm \
   fsm.puml
 
 moddir=$(prefix)/share/guile/site/$(GUILE_EFFECTIVE_VERSION)/pnm/fsm/
@@ -75,6 +78,15 @@ GUILE_SMC_P3_ARGS = \
   -U "((pnm fsm context) (pnm fsm p3-context))" \
   --validate
 
+GUILE_SMC_PNM_ARGS = \
+  --log-driver file \
+  --log-opt "file=pnm.log" \
+  -L $(abs_top_srcdir)/modules:$(abs_top_builddir)/modules \
+  --fsm-name pnm-fsm \
+  --fsm-module "(pnm fsm pnm)" \
+  -U "((pnm fsm context) (pnm fsm pnm-context))" \
+  --validate
+
 GUILE_SMC_ENV = GUILE_AUTO_COMPILE=0
 
 if ENABLE_SMC_STANDALONE_MODE
@@ -85,6 +97,8 @@ GUILE_SMC_P1_ARGS += \
 GUILE_SMC_P2_ARGS += \
   --target=guile-standalone
 GUILE_SMC_P3_ARGS += \
+  --target=guile-standalone
+GUILE_SMC_PNM_ARGS += \
   --target=guile-standalone
 endif
 
@@ -104,6 +118,9 @@ p3.scm: p3-context.scm p3.puml
 	@echo "  SMC      $@"
 	@$(GUILE_SMC_ENV) smc compile $(GUILE_SMC_P3_ARGS) p3.puml > $@
 
+pnm.scm: pnm-context.scm pnm.puml
+	@echo "  SMC      $@"
+	@$(GUILE_SMC_ENV) smc compile $(GUILE_SMC_PNM_ARGS) pnm.puml > $@
 
 # XXX: Automake does not remove those files for some reason.
 uninstall-hook:
@@ -117,6 +134,8 @@ CLEANFILES += \
   p2.log	\
   p3.scm	\
   p3.log	\
+  pnm.scm	\
+  pnm.log	\
   context.scm	\
   context.log
 

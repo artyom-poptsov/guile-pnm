@@ -1,0 +1,95 @@
+(use-modules (srfi srfi-64)
+             (pnm fsm context)
+             (pnm fsm pnm)
+             (oop goops)
+             (pnm image))
+
+(define-method (configure-test-logging! (test-suite-name <string>))
+  (smc-log-init! "file" `((file . ,(string-append test-suite-name "-smc.log")))))
+
+(define %test-name "pnm")
+
+(configure-test-logging! %test-name)
+
+
+(test-begin %test-name)
+
+
+;; Check the FSM for format determination.
+
+(test-equal "pbm-ascii: correct"
+  'pbm-ascii
+  (with-input-from-string
+      "P1"
+    (lambda ()
+      (let* ((fsm (make <pnm-fsm> #:debug-mode? #t))
+             (ctx (make-char-context #:port (current-input-port)))
+             (ctx (fsm-run! fsm ctx)))
+        (context-result ctx)))))
+
+(test-equal "pgm-ascii: correct"
+  'pgm-ascii
+  (with-input-from-string
+      "P2"
+    (lambda ()
+      (let* ((fsm (make <pnm-fsm> #:debug-mode? #t))
+             (ctx (make-char-context #:port (current-input-port)))
+             (ctx (fsm-run! fsm ctx)))
+        (context-result ctx)))))
+
+(test-equal "ppm-ascii: correct"
+  'ppm-ascii
+  (with-input-from-string
+      "P3"
+    (lambda ()
+      (let* ((fsm (make <pnm-fsm> #:debug-mode? #t))
+             (ctx (make-char-context #:port (current-input-port)))
+             (ctx (fsm-run! fsm ctx)))
+        (context-result ctx)))))
+
+(test-equal "ppm-binary: correct"
+  'pbm-binary
+  (with-input-from-string
+      "P4"
+    (lambda ()
+      (let* ((fsm (make <pnm-fsm> #:debug-mode? #t))
+             (ctx (make-char-context #:port (current-input-port)))
+             (ctx (fsm-run! fsm ctx)))
+        (context-result ctx)))))
+
+(test-equal "pgm-binary: correct"
+  'pgm-binary
+  (with-input-from-string
+      "P5"
+    (lambda ()
+      (let* ((fsm (make <pnm-fsm> #:debug-mode? #t))
+             (ctx (make-char-context #:port (current-input-port)))
+             (ctx (fsm-run! fsm ctx)))
+        (context-result ctx)))))
+
+(test-equal "ppm-binary: correct"
+  'ppm-binary
+  (with-input-from-string
+      "P6"
+    (lambda ()
+      (let* ((fsm (make <pnm-fsm> #:debug-mode? #t))
+             (ctx (make-char-context #:port (current-input-port)))
+             (ctx (fsm-run! fsm ctx)))
+        (context-result ctx)))))
+
+(test-equal "pam: correct"
+  'pam
+  (with-input-from-string
+      "P7"
+    (lambda ()
+      (let* ((fsm (make <pnm-fsm> #:debug-mode? #t))
+             (ctx (make-char-context #:port (current-input-port)))
+             (ctx (fsm-run! fsm ctx)))
+        (context-result ctx)))))
+
+
+(define exit-status (test-runner-fail-count (test-runner-current)))
+
+(test-end %test-name)
+
+(exit exit-status)
