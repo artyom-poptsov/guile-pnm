@@ -21,8 +21,9 @@ include $(top_srcdir)/build-aux/am/guile.am
 
 SOURCES = \
 	pbm.scm	\
+	pbm-context.scm \
 	pgm.scm	\
-	pbm-context.scm
+	pgm-context.scm
 
 BUILT_SOURCES = \
 	context.scm
