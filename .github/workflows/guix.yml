@@ -1,0 +1,37 @@
+---
+# File : guix.yml
+
+name: Guix/Guile 3.0
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - target: x86_64-linux-gnu
+            package: guile-pnm
+          - target: aarch64-linux-gnu
+            package: guile-pnm
+          - target: riscv64-linux-gnu
+            package: guile-pnm
+    name: "${{ matrix.target }}/${{ matrix.package }}"
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: PromyLOPh/guix-install-action@v1
+        with:
+          pullAfterInstall: false
+      - name: Build "${{ matrix.target }}/${{ matrix.package }}"
+        run: >-
+          guix build -f guix.scm
+          ${{ matrix.target != 'x86_64-linux-gnu' && format('--target={0}', matrix.target) || '' }}
+
+# End of guix.yml
+...
