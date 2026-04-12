@@ -1,7 +1,7 @@
 @startuml
 
 legend
-event-source: next-char
+event-source: none
 endlegend
 
 ' -------------------------------------------------------------------------------
@@ -14,10 +14,12 @@ endlegend
 ' Magic number reading.
 ' -------------------------------------------------------------------------------
 
+read_magic_number_1: event-source: next-char
 read_magic_number_1 --> [*]: char:eof-object? -> throw-unexpected-eof
 read_magic_number_1 --> read_magic_number_2: char:letter-P? -> push-event-to-buffer
 read_magic_number_1 --> [*]: guard:#t -> throw-magic-number-error
 
+read_magic_number_2: event-source: next-char
 read_magic_number_2 --> [*]: char:eof-object? -> throw-unexpected-eof
 read_magic_number_2 --> pbm_ascii:  char:digit-one? -> push-event-to-buffer
 read_magic_number_2 --> pgm_ascii:  char:digit-two? -> push-event-to-buffer

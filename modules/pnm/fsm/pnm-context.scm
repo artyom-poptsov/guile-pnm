@@ -14,7 +14,11 @@
             set-type-pgm-binary
             set-type-ppm-binary
             set-type-pam
-            rewind-port))
+            rewind-port
+            none))
+
+(define (none ctx)
+  #f)
 
 
 
@@ -47,7 +51,7 @@
 
 
 (define (rewind-port ctx)
-  (let ((buffer (reverse (context-buffer ctx)))
+  (let ((buffer (context-buffer ctx))
         (port   (context-port ctx)))
     (for-each (lambda (ch) (unget-char port ch)) buffer))
   ctx)
