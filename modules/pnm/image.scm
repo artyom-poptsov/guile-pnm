@@ -1,5 +1,6 @@
 (define-module (pnm image)
   #:use-module (oop goops)
+  #:use-module (ice-9 format)
   #:export (<pnm-image>
             pnm-image-commentary
             pnm-image-commentary-set!
