@@ -94,6 +94,7 @@ AC_CONFIG_FILES([
   build-aux/Makefile
   build-aux/am/Makefile
   build-aux/m4/Makefile
+  modules/Makefile
   modules/pnm/Makefile
   modules/pnm/core/Makefile
   modules/pnm/fsm/Makefile

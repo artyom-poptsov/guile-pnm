@@ -17,29 +17,14 @@
 ## You should have received a copy of the GNU General Public License
 ## along with Guile-PNM.  If not, see <http://www.gnu.org/licenses/>.
 
-ACLOCAL_AMFLAGS = -I build-aux
+include $(top_srcdir)/build-aux/am/guile.am
 
-SUBDIRS = . build-aux modules tests
+SUBDIRS = pnm .
 
-EXTRA_DIST = \
-	.dir-locals.el
+SOURCES = \
+  pnm.scm
 
-gen-ChangeLog:
-	if test -d .git; then				\
-	  $(top_srcdir)/build-aux/gitlog-to-changelog	\
-	    2bea8c70..HEAD > $(distdir)/cl-t;		\
-	  rm -f $(distdir)/ChangeLog;			\
-	  mv $(distdir)/cl-t $(distdir)/ChangeLog;	\
-	fi
-
-dist-hook: gen-ChangeLog
-.PHONY: gen-ChangeLog
-
-clean-go:
-	-$(RM) $(GOBJECTS)
-.PHONY: clean-go
-
-CLEANFILES = \
-	$(GOBJECTS)
+moddir=$(prefix)/share/guile/site/$(GUILE_EFFECTIVE_VERSION)/
+godir=$(libdir)/guile/$(GUILE_EFFECTIVE_VERSION)/site-ccache/
 
 # Makefile.am ends here
