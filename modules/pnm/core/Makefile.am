@@ -17,14 +17,12 @@
 ## You should have received a copy of the GNU General Public License
 ## along with Guile-PNM.  If not, see <http://www.gnu.org/licenses/>.
 
-# include $(top_srcdir)/build-aux/am/guile.am
-
-SUBDIRS = core fsm
+include $(top_srcdir)/build-aux/am/guile.am
 
 SOURCES = \
-  image.scm
+  error.scm
 
-moddir=$(prefix)/share/guile/site/$(GUILE_EFFECTIVE_VERSION)/pnm/
-godir=$(libdir)/guile/$(GUILE_EFFECTIVE_VERSION)/site-ccache/pnm/
+moddir=$(prefix)/share/guile/site/$(GUILE_EFFECTIVE_VERSION)/pnm/fsm/core/
+godir=$(libdir)/guile/$(GUILE_EFFECTIVE_VERSION)/site-ccache/pnm/fsm/core/
 
 # Makefile.am ends here
