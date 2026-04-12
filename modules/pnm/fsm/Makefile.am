@@ -20,58 +20,58 @@
 include $(top_srcdir)/build-aux/am/guile.am
 
 SOURCES = \
-	pbm.scm	\
-	pbm-context.scm \
-	pgm.scm	\
-	pgm-context.scm
+  pbm.scm \
+  pbm-context.scm \
+  pgm.scm \
+  pgm-context.scm
 
 BUILT_SOURCES = \
-	context.scm
+  context.scm
 
 INSTALL += \
-	fsm-context.scm
+  fsm-context.scm
 
 EXTRA_DIST += \
-	pbm.scm	\
-	pgm.scm \
-	fsm.puml
+  pbm.scm \
+  pgm.scm \
+  fsm.puml
 
 moddir=$(prefix)/share/guile/site/$(GUILE_EFFECTIVE_VERSION)/pnm/fsm/
 godir=$(libdir)/guile/$(GUILE_EFFECTIVE_VERSION)/site-ccache/pnm/fsm/
 
 GUILE_SMC_CONTEXT_ARGS = \
-	--log-driver file \
-	--log-opt "file=fsm-context.log" \
-	--type functional/char \
-	-m "(pnm fsm context)"
+  --log-driver file \
+  --log-opt "file=fsm-context.log" \
+  --type functional/char \
+  -m "(pnm fsm context)"
 
 GUILE_SMC_PBM_ARGS = \
-	--log-driver file \
-	--log-opt "file=pbm.log" \
-	-L $(abs_top_srcdir)/modules:$(abs_top_builddir)/modules \
-	--fsm-name pbm-fsm \
-	--fsm-module "(pnm fsm pbm)" \
-	-U "((pnm fsm context) (pnm fsm pbm-context))" \
-	--validate
+  --log-driver file \
+  --log-opt "file=pbm.log" \
+  -L $(abs_top_srcdir)/modules:$(abs_top_builddir)/modules \
+  --fsm-name pbm-fsm \
+  --fsm-module "(pnm fsm pbm)" \
+  -U "((pnm fsm context) (pnm fsm pbm-context))" \
+  --validate
 
 GUILE_SMC_PGM_ARGS = \
-	--log-driver file \
-	--log-opt "file=pbm.log" \
-	-L $(abs_top_srcdir)/modules:$(abs_top_builddir)/modules \
-	--fsm-name pgm-fsm \
-	--fsm-module "(pnm fsm pgm)" \
-	-U "((pnm fsm context) (pnm fsm pgm-context))" \
-	--validate
+  --log-driver file \
+  --log-opt "file=pbm.log" \
+  -L $(abs_top_srcdir)/modules:$(abs_top_builddir)/modules \
+  --fsm-name pgm-fsm \
+  --fsm-module "(pnm fsm pgm)" \
+  -U "((pnm fsm context) (pnm fsm pgm-context))" \
+  --validate
 
 GUILE_SMC_ENV = GUILE_AUTO_COMPILE=0
 
 if ENABLE_SMC_STANDALONE_MODE
 GUILE_SMC_CONTEXT_ARGS += \
-	--standalone
+  --standalone
 GUILE_SMC_PBM_ARGS += \
-	--target=guile-standalone
+  --target=guile-standalone
 GUILE_SMC_PGM_ARGS += \
-	--target=guile-standalone
+  --target=guile-standalone
 endif
 
 context.scm:
@@ -93,11 +93,11 @@ uninstall-hook:
 		$(DESTDIR)$(libdir)/guile/3.0/site-ccache/pnm/fsm/context.scm
 
 CLEANFILES += \
-	pbm.scm	\
-	pbm.log	\
-	pgm.scm	\
-	pgm.log	\
-	context.scm	\
-	context.log
+  pbm.scm	\
+  pbm.log	\
+  pgm.scm	\
+  pgm.log	\
+  context.scm	\
+  context.log
 
 ### Makefile.am ends here.
