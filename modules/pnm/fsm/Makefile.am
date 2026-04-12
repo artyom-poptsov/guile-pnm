@@ -33,7 +33,7 @@ BUILT_SOURCES = \
   context.scm
 
 INSTALL += \
-  fsm-context.scm
+  context.scm
 
 EXTRA_DIST += \
   p1.scm \
@@ -47,7 +47,7 @@ godir=$(libdir)/guile/$(GUILE_EFFECTIVE_VERSION)/site-ccache/pnm/fsm/
 
 GUILE_SMC_CONTEXT_ARGS = \
   --log-driver file \
-  --log-opt "file=fsm-context.log" \
+  --log-opt "file=context.log" \
   --type functional/char \
   -m "(pnm fsm context)"
 
