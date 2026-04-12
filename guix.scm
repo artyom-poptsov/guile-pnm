@@ -76,27 +76,7 @@
     (propagated-inputs
      (list guile-smc))
     (arguments
-     (list #:make-flags #~(list "GUILE_AUTO_COMPILE=0") ;to prevent guild warnings
-           #:modules `(((guix build guile-build-system)
-                        #:select (target-guile-effective-version))
-                       ,@%default-gnu-modules)
-           #:imported-modules `((guix build guile-build-system)
-                                ,@%default-gnu-imported-modules)
-           #:phases #~(modify-phases %standard-phases
-                        (add-after 'install 'wrap-guilescript
-                          (lambda _
-                            (let* ((bin (string-append #$output "/bin"))
-                                   (version (target-guile-effective-version))
-                                   (scm (string-append "/share/guile/site/"
-                                                       version))
-                                   (go (string-append "/lib/guile/"
-                                                      version
-                                                      "/site-ccache")))
-                              (wrap-program (string-append bin "/png")
-                                `("GUILE_LOAD_PATH" prefix
-                                  (,(string-append #$output scm)))
-                                `("GUILE_LOAD_COMPILED_PATH" prefix
-                                  (,(string-append #$output go))))))))))
+     (list #:make-flags #~(list "GUILE_AUTO_COMPILE=0"))) ;to prevent guild warnings
     (home-page "https://github.com/artyom-poptsov/guile-pnm")
     (synopsis "Guile library for PNM (PBM, PGM, PPM) format support")
     (description
