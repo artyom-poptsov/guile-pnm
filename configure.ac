@@ -110,7 +110,7 @@ AC_CONFIG_FILES(
   [chmod +x pre-inst-env])
 
 AC_CONFIG_LINKS([
-  modules/pnm/fsm/pbm.puml:modules/pnm/fsm/pbm.puml
+  modules/pnm/fsm/p1.puml:modules/pnm/fsm/p1.puml
 ])
 
 if test "$guilesitedir" != "$GUILE_SITE"; then

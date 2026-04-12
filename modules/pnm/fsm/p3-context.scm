@@ -1,4 +1,4 @@
-(define-module (pnm fsm ppm-context)
+(define-module (pnm fsm p3-context)
   #:use-module (srfi srfi-1)
   #:use-module (pnm fsm common)
   #:use-module (pnm fsm context)

@@ -20,12 +20,12 @@
 include $(top_srcdir)/build-aux/am/guile.am
 
 SOURCES = \
-  pbm.scm \
-  pbm-context.scm \
-  pgm.scm \
-  pgm-context.scm \
-  ppm.scm \
-  ppm-context.scm
+  p1.scm \
+  p1-context.scm \
+  p2.scm \
+  p2-context.scm \
+  p3.scm \
+  p3-context.scm
 
 BUILT_SOURCES = \
   context.scm
@@ -34,9 +34,9 @@ INSTALL += \
   fsm-context.scm
 
 EXTRA_DIST += \
-  pbm.scm \
-  pgm.scm \
-  ppm.scm \
+  p1.scm \
+  p2.scm \
+  p3.scm \
   fsm.puml
 
 moddir=$(prefix)/share/guile/site/$(GUILE_EFFECTIVE_VERSION)/pnm/fsm/
@@ -48,31 +48,31 @@ GUILE_SMC_CONTEXT_ARGS = \
   --type functional/char \
   -m "(pnm fsm context)"
 
-GUILE_SMC_PBM_ARGS = \
+GUILE_SMC_P1_ARGS = \
   --log-driver file \
-  --log-opt "file=pbm.log" \
+  --log-opt "file=p1.log" \
   -L $(abs_top_srcdir)/modules:$(abs_top_builddir)/modules \
-  --fsm-name pbm-fsm \
-  --fsm-module "(pnm fsm pbm)" \
-  -U "((pnm fsm context) (pnm fsm pbm-context))" \
+  --fsm-name p1-fsm \
+  --fsm-module "(pnm fsm p1)" \
+  -U "((pnm fsm context) (pnm fsm p1-context))" \
   --validate
 
-GUILE_SMC_PGM_ARGS = \
+GUILE_SMC_P2_ARGS = \
   --log-driver file \
-  --log-opt "file=pbm.log" \
+  --log-opt "file=p2.log" \
   -L $(abs_top_srcdir)/modules:$(abs_top_builddir)/modules \
-  --fsm-name pgm-fsm \
-  --fsm-module "(pnm fsm pgm)" \
-  -U "((pnm fsm context) (pnm fsm pgm-context))" \
+  --fsm-name p2-fsm \
+  --fsm-module "(pnm fsm p2)" \
+  -U "((pnm fsm context) (pnm fsm p2-context))" \
   --validate
 
-GUILE_SMC_PPM_ARGS = \
+GUILE_SMC_P3_ARGS = \
   --log-driver file \
-  --log-opt "file=pbm.log" \
+  --log-opt "file=p3.log" \
   -L $(abs_top_srcdir)/modules:$(abs_top_builddir)/modules \
-  --fsm-name ppm-fsm \
-  --fsm-module "(pnm fsm ppm)" \
-  -U "((pnm fsm context) (pnm fsm ppm-context))" \
+  --fsm-name p3-fsm \
+  --fsm-module "(pnm fsm p3)" \
+  -U "((pnm fsm context) (pnm fsm p3-context))" \
   --validate
 
 GUILE_SMC_ENV = GUILE_AUTO_COMPILE=0
@@ -80,11 +80,11 @@ GUILE_SMC_ENV = GUILE_AUTO_COMPILE=0
 if ENABLE_SMC_STANDALONE_MODE
 GUILE_SMC_CONTEXT_ARGS += \
   --standalone
-GUILE_SMC_PBM_ARGS += \
+GUILE_SMC_P1_ARGS += \
   --target=guile-standalone
-GUILE_SMC_PGM_ARGS += \
+GUILE_SMC_P2_ARGS += \
   --target=guile-standalone
-GUILE_SMC_PPM_ARGS += \
+GUILE_SMC_P3_ARGS += \
   --target=guile-standalone
 endif
 
@@ -92,17 +92,17 @@ context.scm:
 	@echo "  SMC      $@"
 	@$(GUILE_SMC_ENV) smc context $(GUILE_SMC_CONTEXT_ARGS) > $@
 
-pbm.scm: pbm-context.scm pbm.puml
+p1.scm: p1-context.scm p1.puml
 	@echo "  SMC      $@"
-	@$(GUILE_SMC_ENV) smc compile $(GUILE_SMC_PBM_ARGS) pbm.puml > $@
+	@$(GUILE_SMC_ENV) smc compile $(GUILE_SMC_P1_ARGS) p1.puml > $@
 
-pgm.scm: pgm-context.scm pgm.puml
+p2.scm: p2-context.scm p2.puml
 	@echo "  SMC      $@"
-	@$(GUILE_SMC_ENV) smc compile $(GUILE_SMC_PGM_ARGS) pgm.puml > $@
+	@$(GUILE_SMC_ENV) smc compile $(GUILE_SMC_P2_ARGS) p2.puml > $@
 
-ppm.scm: ppm-context.scm ppm.puml
+p3.scm: p3-context.scm p3.puml
 	@echo "  SMC      $@"
-	@$(GUILE_SMC_ENV) smc compile $(GUILE_SMC_PPM_ARGS) ppm.puml > $@
+	@$(GUILE_SMC_ENV) smc compile $(GUILE_SMC_P3_ARGS) p3.puml > $@
 
 
 # XXX: Automake does not remove those files for some reason.
@@ -111,12 +111,12 @@ uninstall-hook:
 		$(DESTDIR)$(libdir)/guile/3.0/site-ccache/pnm/fsm/context.scm
 
 CLEANFILES += \
-  pbm.scm	\
-  pbm.log	\
-  pgm.scm	\
-  pgm.log	\
-  ppm.scm	\
-  ppm.log	\
+  p1.scm	\
+  p1.log	\
+  p2.scm	\
+  p2.log	\
+  p3.scm	\
+  p3.log	\
   context.scm	\
   context.log
 

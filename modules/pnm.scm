@@ -43,7 +43,7 @@
                    (port (current-input-port))
                    #:key
                    (debug-mode? #f))
-  (let* ((fsm         (make <pbm-fsm> #:debug-mode? debug-mode?))
+  (let* ((fsm         (make <p1-fsm> #:debug-mode? debug-mode?))
          (context     (make-char-context #:port port))
          (new-context (fsm-run! fsm context))
          (result      (context-result new-context)))
@@ -65,7 +65,7 @@
                    (port (current-input-port))
                    #:key
                    (debug-mode? #f))
-  (let* ((fsm         (make <pgm-fsm> #:debug-mode? debug-mode?))
+  (let* ((fsm         (make <p2-fsm> #:debug-mode? debug-mode?))
          (context     (make-char-context #:port port))
          (new-context (fsm-run! fsm context))
          (result      (context-result new-context)))
