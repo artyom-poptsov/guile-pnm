@@ -31,11 +31,29 @@
   #:use-module (pnm fsm p1-context)
   #:use-module (pnm fsm p2)
   #:use-module (pnm fsm p2-context)
+  #:use-module (pnm fsm pnm)
+  #:use-module (pnm fsm pnm-context)
   #:use-module (pnm fsm context)
   #:export (pbm->scm
             pgm->scm
             scm->pbm
-            scm->pgm))
+            scm->pgm
+            pnm-type))
+
+(define* (pnm-type #:optional
+                   (port (current-input-port))
+                   #:key
+                   (debug-mode? #f))
+  "Read data from a @var{port} and determine if the data is a PNM image.  Return
+the type of the image as a symbol, or #f if the input data is not a PNM image."
+  (let* ((fsm     (make <pnm-fsm> #:debug-mode? debug-mode?))
+         (context (make-char-context #:port port)))
+    (catch 'pnm-error
+      (lambda ()
+        (let ((new-context (fsm-run! fsm context)))
+          (context-result new-context)))
+      (lambda (key . args)
+        #f))))
 
 
 

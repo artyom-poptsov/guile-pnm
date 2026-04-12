@@ -1,4 +1,5 @@
 (use-modules (srfi srfi-64)
+             (pnm)
              (pnm fsm context)
              (pnm fsm pnm)
              (oop goops)
@@ -86,6 +87,23 @@
              (ctx (make-char-context #:port (current-input-port)))
              (ctx (fsm-run! fsm ctx)))
         (context-result ctx)))))
+
+
+;; pnm-type
+
+(test-equal "pnm-type: pbm-ascii"
+  'pbm-ascii
+  (with-input-from-string
+      "P1"
+    (lambda ()
+      (pnm-type))))
+
+(test-equal "pnm-type: #f"
+  #f
+  (with-input-from-string
+      "PNG"
+    (lambda ()
+      (pnm-type))))
 
 
 (define exit-status (test-runner-fail-count (test-runner-current)))
