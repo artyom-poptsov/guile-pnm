@@ -112,6 +112,9 @@ AC_CONFIG_FILES(
 
 AC_CONFIG_LINKS([
   modules/pnm/fsm/p1.puml:modules/pnm/fsm/p1.puml
+  modules/pnm/fsm/p2.puml:modules/pnm/fsm/p2.puml
+  modules/pnm/fsm/p3.puml:modules/pnm/fsm/p3.puml
+  modules/pnm/fsm/pnm.puml:modules/pnm/fsm/pnm.puml
 ])
 
 if test "$guilesitedir" != "$GUILE_SITE"; then
