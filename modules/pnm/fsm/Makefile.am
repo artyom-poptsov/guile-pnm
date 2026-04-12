@@ -36,11 +36,14 @@ INSTALL += \
   context.scm
 
 EXTRA_DIST += \
+  p1.puml \
   p1.scm \
+  p2.puml \
   p2.scm \
+  p3.puml \
   p3.scm \
-  pnm.scm \
-  fsm.puml
+  pnm.puml \
+  pnm.scm
 
 moddir=$(prefix)/share/guile/site/$(GUILE_EFFECTIVE_VERSION)/pnm/fsm/
 godir=$(libdir)/guile/$(GUILE_EFFECTIVE_VERSION)/site-ccache/pnm/fsm/
