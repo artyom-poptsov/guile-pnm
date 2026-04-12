@@ -20,6 +20,7 @@
 include $(top_srcdir)/build-aux/am/guile.am
 
 SOURCES = \
+  common.scm \
   p1.scm \
   p1-context.scm \
   p2.scm \
