@@ -35,7 +35,8 @@
 
 (define (set-grayscale ctx pnm)
   (let* ((result (context-result ctx))
-         (buffer (list->string (context-buffer/reversed ctx)))
+         (buffer (list->string (map integer->char
+                                    (context-buffer/reversed ctx))))
          (grayscale (string->number buffer)))
     (clear-buffer
      (context-result-set ctx
