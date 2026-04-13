@@ -61,9 +61,11 @@ lookup_data: Lookup the image data.
 lookup_data --> validate_image: char:eof-object? -> ppm-set-data
 lookup_data --> read_data: char:digit? -> push-event-to-buffer
 lookup_data -> lookup_data: char:space?
-lookup_data --> validate_image: char:eof-object?
+lookup_data -> lookup_data: char:newline?
+lookup_data --> validate_image: char:eof-object? -> ppm-set-data
 
 read_data: Read the image data.
+read_data --> validate_image: char:eof-object? -> ppm-set-data
 read_data -> read_data: char:digit? -> push-event-to-buffer
 read_data -> lookup_data: char:newline? -> push-buffer-to-stanza
 read_data --> lookup_data: char:space? -> push-buffer-to-stanza
