@@ -1,3 +1,28 @@
+;;; image.scm -- Guile PNM image types.
+
+;; Copyright © 2026 Artyom V. Poptsov <poptsov.artyom@gmail.com>
+;;
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+;;
+;; The program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with the program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+;;; Commentary:
+
+;; This module contains PNM image classes (types) and their methods.
+
+
+;;; Code:
+
 (define-module (pnm image)
   #:use-module (oop goops)
   #:use-module (ice-9 format)
@@ -31,6 +56,8 @@
 
 
 (define-class <pnm-image> ()
+  ;; Image commentary.
+  ;;
   ;; <string> | #f
   (commentary
    #:init-value   #f
@@ -38,20 +65,26 @@
    #:getter       pnm-image-commentary
    #:setter       pnm-image-commentary-set!)
 
-  ;; <number> | #f
+  ;; REQUIRED.  Image width.
+  ;;
+  ;; <number>
   (width
    #:init-value   #f
    #:init-keyword #:width
    #:getter       pnm-image-width
    #:setter       pnm-image-width-set!)
 
-  ;; <number> | #f
+  ;; REQUIRED.  Image height.
+  ;;
+  ;; <number>
   (height
    #:init-value   #f
    #:init-keyword #:height
    #:getter       pnm-image-height
    #:setter       pnm-image-height-set!)
 
+  ;; REQUIRED.  Image data as a vector of numbers.
+  ;;
   ;; <vector>
   (data
    #:init-value   #()
@@ -60,6 +93,8 @@
    #:setter       pnm-image-data-set!))
 
 (define-method (initialize (image <pnm-image>) initargs)
+  "PNM image constructor which ensures that all the required object fields are
+set and have a proper value."
   (next-method)
   (let ((data   (constructor-argument #:data initargs))
         (width  (constructor-argument #:width initargs))
@@ -86,6 +121,7 @@
 (define-class <pbm-image> (<pnm-image>))
 
 (define-method (pnm-image->pnm (image <pbm-image>) (port <port>))
+  "Convert an @var{image} into a PNM file."
   (let* ((width       (pnm-image-width image))
          (height      (pnm-image-height image))
          (data        (pnm-image-data image))
@@ -127,6 +163,8 @@
 
 
 (define-class <pgm-image> (<pnm-image>)
+  ;; REQUIRED.  Maximum grayscale value.
+  ;;
   ;; <number>
   (grayscale-maximum-value
    #:init-value  16
@@ -179,6 +217,8 @@
 
 
 (define-class <ppm-image> (<pnm-image>)
+  ;; REQUIRED.  Maximum color value.
+  ;;
   ;; <number>
   (color-maximum-value
    #:init-value  255
