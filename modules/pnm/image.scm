@@ -164,7 +164,21 @@ set and have a proper value."
                     row
                     (+ column 1))))))))
 
+
+
+(define-method (%display (image <pbm-ascii-image>) (port <port>))
+  (format port "#<pbm-ascii-image width: ~a height: ~a ~a>"
+          (pnm-image-width image)
+          (pnm-image-height image)
+          (object-address/hex-string image)))
+
 (define-class <pbm-binary-image> (<pbm-ascii-image>))
+
+(define-method (%display (image <pbm-binary-image>) (port <port>))
+  (format port "#<pbm-binary-image width: ~a height: ~a ~a>"
+          (pnm-image-width image)
+          (pnm-image-height image)
+          (object-address/hex-string image)))
 
 (define-method (pnm-image->pnm (image <pbm-binary-image>) (port <port>))
   (let* ((width       (pnm-image-width image))
@@ -188,6 +202,13 @@ set and have a proper value."
    #:init-keyword #:grayscale-maxiumum-value
    #:getter       pnm-image-grayscale-maximum-value
    #:setter       pnm-image-grayscale-maximum-value-set!))
+
+(define-method (%display (image <pgm-ascii-image>) (port <port>))
+  (format port "#<pgm-ascii-image width: ~a height: ~a grayscale: ~a ~a>"
+          (pnm-image-width image)
+          (pnm-image-height image)
+          (pnm-image-grayscale-maximum-value image)
+          (object-address/hex-string image)))
 
 (define-method (pnm-image->pnm (image <pgm-ascii-image>) (port <port>))
   (let* ((width       (pnm-image-width image))
@@ -219,6 +240,13 @@ set and have a proper value."
 
 (define-class <pgm-binary-image> (<pgm-ascii-image>))
 
+(define-method (%display (image <pgm-binary-image>) (port <port>))
+  (format port "#<pgm-binary-image width: ~a height: ~a grayscale: ~a ~a>"
+          (pnm-image-width image)
+          (pnm-image-height image)
+          (pnm-image-grayscale-maximum-value image)
+          (object-address/hex-string image)))
+
 (define-method (pnm-image->pnm (image <pgm-binary-image>) (port <port>))
   (let* ((width       (pnm-image-width image))
          (height      (pnm-image-height image))
@@ -242,6 +270,13 @@ set and have a proper value."
    #:init-keyword #:color-maxiumum-value
    #:getter       pnm-image-color-maximum-value
    #:setter       pnm-image-color-maximum-value-set!))
+
+(define-method (%display (image <ppm-ascii-image>) (port <port>))
+  (format port "#<ppm-ascii-image width: ~a height: ~a color: ~a ~a>"
+          (pnm-image-width image)
+          (pnm-image-height image)
+          (pnm-image-color-maximum-value image)
+          (object-address/hex-string image)))
 
 (define-method (pnm-image->pnm (image <ppm-ascii-image>) (port <port>))
   (let* ((width       (pnm-image-width image))
@@ -272,6 +307,13 @@ set and have a proper value."
                     (+ column 1))))))))
 
 (define-class <ppm-binary-image> (<ppm-ascii-image>))
+
+(define-method (%display (image <ppm-binary-image>) (port <port>))
+  (format port "#<ppm-binary-image width: ~a height: ~a color: ~a ~a>"
+          (pnm-image-width image)
+          (pnm-image-height image)
+          (pnm-image-color-maximum-value image)
+          (object-address/hex-string image)))
 
 (define-method (pnm-image->pnm (image <ppm-binary-image>) (port <port>))
   (let* ((width       (pnm-image-width image))
