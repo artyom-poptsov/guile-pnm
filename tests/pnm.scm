@@ -163,6 +163,19 @@
         (scm->pnm img (current-output-port))))))
 
 
+;; Converter tests.
+
+(test-equal "ascii->binary, binary->ascii"
+  %test-pbm
+  (let* ((img (pnm->scm (open-input-file %test-p1-file)
+                        #:debug-mode? #t))
+         (bin-image (pnm-image->pbm-binary-image img))
+         (ascii-image (pnm-image->pbm-ascii-image bin-image)))
+    (with-output-to-string
+      (lambda ()
+        (scm->pnm ascii-image (current-output-port))))))
+
+
 (define exit-status (test-runner-fail-count (test-runner-current)))
 
 (test-end %test-name)
