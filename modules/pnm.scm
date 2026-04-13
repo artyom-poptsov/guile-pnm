@@ -44,10 +44,7 @@
             ;; Specific format handlers
             pbm->scm
             pgm->scm
-            ppm->scm
-            scm->pbm
-            scm->pgm
-            scm->ppm))
+            ppm->scm))
 
 (define* (pnm-type #:optional
                    (port (current-input-port))
@@ -80,11 +77,6 @@ the type of the image as a symbol, or #f if the input data is not a PNM image."
       #:height     (assoc-ref result 'height)
       #:data       (assoc-ref result 'data))))
 
-(define* (scm->pbm image
-                   #:optional
-                   (port (current-output-port)))
-  (pnm-image->pnm image port))
-
 
 ;; PGM
 
@@ -103,11 +95,6 @@ the type of the image as a symbol, or #f if the input data is not a PNM image."
       #:grayscale-maxiumum-value (assoc-ref result 'grayscale)
       #:data       (assoc-ref result 'data))))
 
-(define* (scm->pgm image
-                   #:optional
-                   (port (current-output-port)))
-  (pnm-image->pnm image port))
-
 
 ;; PPM
 
@@ -125,11 +112,6 @@ the type of the image as a symbol, or #f if the input data is not a PNM image."
       #:height     (assoc-ref result 'height)
       #:color-maxiumum-value (assoc-ref result 'color)
       #:data       (assoc-ref result 'data))))
-
-(define* (scm->ppm image
-                   #:optional
-                   (port (current-output-port)))
-  (pnm-image->pnm image port))
 
 
 ;; Generic PNM handler.
