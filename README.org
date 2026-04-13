@@ -18,7 +18,7 @@ $ guix package -f guix.scm
 *** Manual
  #+BEGIN_EXAMPLE shell
 $ git clone https://github.com/artyom-poptsov/guile-pnm.git
-$ cd guile-png
+$ cd guile-pnm
 $ autoreconf -vif
 $ ./configure
 $ make -j$(nproc)
