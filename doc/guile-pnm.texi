@@ -201,6 +201,11 @@ This class represents a PBM binary image.
 
 @end deftp
 
+@deffn {Method} pnm-image->pbm-binary-image (image <pbm-ascii-image>)
+Convert an ASCII (plain) PBM @var{image} to a binary PBM image.  Return a new
+@code{<pbm-binary-image>} instance.
+@end deffn
+
 @c -----------------------------------------------------------------------------
 @subsection PGM
 

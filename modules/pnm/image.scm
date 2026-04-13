@@ -52,7 +52,10 @@
             pnm-image-color-maximum-value
             pnm-image-color-maximum-value-set!
 
-            pnm-image->pnm))
+            pnm-image->pnm
+
+            ;; Converters.
+            pnm-image->pbm-binary-image))
 
 
 (define-class <pnm-image> ()
@@ -163,6 +166,63 @@ set and have a proper value."
               (loop (+ index 1)
                     row
                     (+ column 1))))))))
+
+(define-method (pnm-image->pbm-binary-image (image <pbm-ascii-image>))
+  "Convert an ASCII (plain) PBM @var{image} to a binary PBM image.  Return a new
+@code{<pbm-binary-image>} instance."
+  (define (ascii-data->binary-data data width)
+    (let ((data-length (vector-length data)))
+      (let loop ((index      0)
+                 (column     0)
+                 (byte-index 7)
+                 (byte       0)
+                 (result     '()))
+        (if (< index data-length)
+            (let* ((value (vector-ref data index))
+                   (byte  (logior byte (ash value byte-index))))
+              (cond
+               ((= column (- width 1))
+                (loop (+ index 1)
+                      0 ; column
+                      7 ; byte-index
+                      0 ; byte
+                      (cons byte result)))
+               ((> byte-index 0)
+                (loop (+ index 1)
+                      (+ column 1)
+                      (- byte-index 1)
+                      byte
+                      result))
+               ((zero? byte-index)
+                (loop (+ index 1)
+                      (+ column 1)
+                      7 ; byte-index
+                      0 ; byte
+                      (cons byte result)))
+               ((= column width)
+                (loop (+ index 1)
+                      0 ; column
+                      7 ; byte-index
+                      0 ; byte
+                      (cons byte result)))
+               (else
+                (loop (+ index 1)
+                      (+ column 1)
+                      (- byte-index 1)
+                      byte
+                      result))))
+            (list->vector (reverse result))))))
+
+  (let* ((width       (pnm-image-width image))
+         (height      (pnm-image-height image))
+         (commentary  (pnm-image-commentary image))
+         (data        (pnm-image-data image))
+         (binary-data (ascii-data->binary-data data width)))
+    (make <pbm-binary-image>
+      #:width width
+      #:height height
+      #:commentary commentary
+      #:data binary-data)))
 
 
 
