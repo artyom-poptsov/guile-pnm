@@ -253,6 +253,8 @@ set and have a proper value."
     (put-bytevector port (u8-list->bytevector (vector->list data)))))
 
 (define-method (pnm-image->pbm-ascii-image (image <pbm-binary-image>))
+  "Convert an binary PBM @var{image} to an ASCII (plain) PBM image.  Return a new
+@code{<pbm-ascii-image>} instance."
   (define (binary-data->ascii-data data width)
     (let ((data-length (vector-length data))
           (extra-bits  (remainder width 8)))
