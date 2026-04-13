@@ -206,6 +206,11 @@ Convert an ASCII (plain) PBM @var{image} to a binary PBM image.  Return a new
 @code{<pbm-binary-image>} instance.
 @end deffn
 
+@deffn {Method} pnm-image->pbm-ascii-image (image <pbm-binary-image>)
+Convert an binary PBM @var{image} to an ASCII (plain) PBM image.  Return a new
+@code{<pbm-ascii-image>} instance.
+@end deffn
+
 @c -----------------------------------------------------------------------------
 @subsection PGM
 
