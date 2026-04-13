@@ -1,6 +1,8 @@
 (define-module (pnm image)
   #:use-module (oop goops)
   #:use-module (ice-9 format)
+  #:use-module (pnm core common)
+  #:use-module (pnm core error)
   #:export (<pnm-image>
             pnm-image-commentary
             pnm-image-commentary-set!
@@ -51,6 +53,29 @@
    #:init-keyword #:data
    #:getter       pnm-image-data
    #:setter       pnm-image-data-set!))
+
+(define-method (initialize (image <pnm-image>) initargs)
+  (next-method)
+  (let ((data   (constructor-argument #:data initargs))
+        (width  (constructor-argument #:width initargs))
+        (height (constructor-argument #:height initargs)))
+    ;; Check the width value.
+    (unless (number? width)
+      (pnm-error "Width must be a number" initargs width))
+    (unless (> width 0)
+      (pnm-error "Width must be greater than zero" initargs width))
+    ;; Check the height value.
+    (unless (number? height)
+      (pnm-error "Height must be a number" initargs height))
+    (unless (> height 0)
+      (pnm-error "Height must be greater than zero" initargs height))
+    ;; Check the data.
+    (unless data
+      (pnm-error "Data must be specified" initargs data))
+    (unless (> (vector-length data) 0)
+      (pnm-error "Data must be a vector of a non-zero length"
+                 initargs
+                 data))))
 
 
 (define-class <pbm-image> (<pnm-image>))
