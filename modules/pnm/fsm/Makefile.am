@@ -29,6 +29,8 @@ SOURCES = \
   p3-context.scm \
   p4.scm \
   p4-context.scm \
+  p5.scm \
+  p5-context.scm \
   pnm.scm \
   pnm-context.scm
 
@@ -47,6 +49,10 @@ EXTRA_DIST += \
   p2.scm \
   p3.puml \
   p3.scm \
+  p4.puml \
+  p4.scm \
+  p5.puml \
+  p5.scm \
   pnm.puml \
   pnm.scm
 
@@ -101,6 +107,15 @@ GUILE_SMC_P4_ARGS = \
   -U "((pnm fsm u8-context) (pnm fsm p4-context))" \
   --validate
 
+GUILE_SMC_P5_ARGS = \
+  --log-driver file \
+  --log-opt "file=p5.log" \
+  -L $(abs_top_srcdir)/modules:$(abs_top_builddir)/modules \
+  --fsm-name p5-fsm \
+  --fsm-module "(pnm fsm p5)" \
+  -U "((pnm fsm u8-context) (pnm fsm p5-context))" \
+  --validate
+
 GUILE_SMC_PNM_ARGS = \
   --log-driver file \
   --log-opt "file=pnm.log" \
@@ -150,6 +165,10 @@ p3.scm: p3-context.scm p3.puml
 p4.scm: p4-context.scm p4.puml
 	@echo "  SMC      $@"
 	@$(GUILE_SMC_ENV) smc compile $(GUILE_SMC_P4_ARGS) p4.puml > $@
+
+p5.scm: p5-context.scm p5.puml
+	@echo "  SMC      $@"
+	@$(GUILE_SMC_ENV) smc compile $(GUILE_SMC_P5_ARGS) p5.puml > $@
 
 pnm.scm: pnm-context.scm pnm.puml
 	@echo "  SMC      $@"
