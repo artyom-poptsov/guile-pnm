@@ -118,6 +118,23 @@ set and have a proper value."
                  data))))
 
 
+
+(define-method (%display (image <pnm-image>) (port <port>))
+  (format port "#<pnm-image width: ~a height: ~a ~a>"
+          (pnm-image-width image)
+          (pnm-image-height image)
+          (object-address/hex-string image)))
+
+(define-method (display (image <pnm-image>) (port <port>))
+  (%display image port))
+
+(define-method (write (image <pnm-image>) (port <port>))
+  (%display image port))
+
+
+
+
+
 (define-class <pbm-ascii-image> (<pnm-image>))
 
 (define-method (pnm-image->pnm (image <pbm-ascii-image>) (port <port>))
