@@ -89,13 +89,22 @@
     (when (pnm-image-commentary image)
       (format port "# ~a~%" (pnm-image-commentary image)))
     (format port "~a ~a~%" width height)
-    (let loop ((index 0))
+    (let loop ((index  0)
+               (row    0)
+               (column 0))
       (when (< index data-length)
         (format port "~a" (vector-ref data index))
-        (if (zero? (remainder (+ index 1) width))
-            (newline port)
-            (display " " port))
-        (loop (+ index 1))))))
+        (if (= column (- width 1))
+            (begin
+              (newline port)
+              (loop (+ index 1)
+                    (+ row 1)
+                    0))
+            (begin
+              (display " " port)
+              (loop (+ index 1)
+                    row
+                    (+ column 1))))))))
 
 
 
@@ -118,14 +127,22 @@
       (format port "# ~a~%" (pnm-image-commentary image)))
     (format port "~a ~a~%" width height)
     (format port "~a~%" grayscale)
-    (let loop ((index 0))
+    (let loop ((index  0)
+               (row    0)
+               (column 0))
       (when (< index data-length)
         (format port "~3a" (vector-ref data index))
-        (if (zero? (remainder (+ index 1) width))
-            (newline port)
-            (display " " port))
-        (loop (+ index 1))))
-    (newline port)))
+        (if (= column (- width 1))
+            (begin
+              (newline port)
+              (loop (+ index 1)
+                    (+ row 1)
+                    0))
+            (begin
+              (display " " port)
+              (loop (+ index 1)
+                    row
+                    (+ column 1))))))))
 
 
 (define-class <ppm-image> (<pnm-image>)
@@ -147,14 +164,22 @@
       (format port "# ~a~%" (pnm-image-commentary image)))
     (format port "~a ~a~%" width height)
     (format port "~a~%" color)
-    (let loop ((index 0))
+    (let loop ((index  0)
+               (row    0)
+               (column 0))
       (when (< index data-length)
         (format port "~3a" (vector-ref data index))
-        (if (zero? (remainder (+ index 1) width))
-            (newline port)
-            (display " " port))
-        (loop (+ index 1))))
-    (newline port)))
+        (if (= column (- width 1))
+            (begin
+              (newline port)
+              (loop (+ index 1)
+                    (+ row 1)
+                    0))
+            (begin
+              (display " " port)
+              (loop (+ index 1)
+                    row
+                    (+ column 1))))))))
 
 
 

@@ -22,21 +22,23 @@
     0 0 0 0 0 0)))
 
 (test-equal "pnm-image->pnm"
-  (string-join
-   (list
-    "P1"
-    "# This is an example bitmap of the letter \"J\""
-    "6 10"
-    "0 0 0 0 1 0"
-    "0 0 0 0 1 0"
-    "0 0 0 0 1 0"
-    "0 0 0 0 1 0"
-    "0 0 0 0 1 0"
-    "0 0 0 0 1 0"
-    "1 0 0 0 1 0"
-    "0 1 1 1 0 0"
-    "0 0 0 0 0 0"
-    "0 0 0 0 0 0\n")
+  (string-append
+   (string-join
+    (list
+     "P1"
+     "# This is an example bitmap of the letter \"J\""
+     "6 10"
+     "0 0 0 0 1 0"
+     "0 0 0 0 1 0"
+     "0 0 0 0 1 0"
+     "0 0 0 0 1 0"
+     "0 0 0 0 1 0"
+     "0 0 0 0 1 0"
+     "1 0 0 0 1 0"
+     "0 1 1 1 0 0"
+     "0 0 0 0 0 0"
+     "0 0 0 0 0 0")
+    "\n")
    "\n")
   (let ((img (make <pbm-image>
                #:width  6
@@ -59,18 +61,19 @@
     0   0   0)))
 
 (test-equal "pnm-image->pnm: PPM"
-  (string-join
-   (list
-    "P3"
-    "# This is a commentary."
-    "3 2"
-    "255"
-    "255 0   0  "
-    "0   255 0  "
-    "0   0   255"
-    "255 255 0  "
-    "255 255 255"
-    "0   0   0  "
+  (string-append
+   (string-join
+    (list
+     "P3"
+     "# This is a commentary."
+     "3 2"
+     "255"
+     "255 0   0  "
+     "0   255 0  "
+     "0   0   255"
+     "255 255 0  "
+     "255 255 255"
+     "0   0   0  ")
     "\n")
    "\n")
   (let ((img (make <ppm-image>
