@@ -9,6 +9,7 @@
   (smc-log-init! "file" `((file . ,(string-append test-suite-name "-smc.log")))))
 
 (define %topdir (getenv "abs_top_srcdir"))
+(define %test-p1-file (format #f "~a/tests/image/p1.pbm" %topdir))
 (define %test-p4-file (format #f "~a/tests/image/p4.pbm" %topdir))
 (define %test-p5-file (format #f "~a/tests/image/p5.pgm" %topdir))
 (define %test-p6-file (format #f "~a/tests/image/p6.ppm" %topdir))
@@ -132,9 +133,9 @@
     "\n")
    "\n"))
 
-(test-equal "pnm->scm"
+(test-equal "pnm->scm: p1"
   %test-pbm
-  (let ((img (pnm->scm (open-input-string %test-pbm)
+  (let ((img (pnm->scm (open-input-file %test-p1-file)
                        #:debug-mode? #t)))
     (with-output-to-string
       (lambda ()
