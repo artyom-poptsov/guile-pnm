@@ -98,6 +98,7 @@ AC_CONFIG_FILES([
   modules/pnm/Makefile
   modules/pnm/core/Makefile
   modules/pnm/fsm/Makefile
+  doc/Makefile
   tests/Makefile
 ])
 

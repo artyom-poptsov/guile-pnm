@@ -1,0 +1,268 @@
+\input texinfo
+@c -*-texinfo-*-
+@c %**start of header
+@setfilename guile-pnm.info
+@documentencoding UTF-8
+@settitle Guile-PNM Reference Manual
+@c %**end of header
+@include version.texi
+
+@copying
+This manual documents Guile-PNM version @value{VERSION}.
+
+Copyright (C) 2022-2025 Artyom V. Poptsov
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled ``GNU Free
+Documentation License.''
+@end copying
+
+@dircategory The Algorithmic Language Scheme
+@direntry
+* Guile-PNM: (guile-pnm).  Guile NetBPM (PNM) library.
+@end direntry
+
+@setchapternewpage odd
+
+@titlepage
+@sp 10
+
+@title Guile-PNM Reference Manual
+@subtitle For Guile-PNM @value{VERSION}
+
+@author Artyom V. Poptsov
+
+@page
+@vskip 0pt plus 1filll
+@vskip 0pt plus 1filll
+@insertcopying
+@end titlepage
+
+@finalout
+@headings double
+
+@ifnottex
+@node Top, Introduction, (dir), (dir)
+@top The Guile-PNM Reference Manual
+
+@insertcopying
+@sp 1
+@end ifnottex
+
+@menu
+* Introduction::
+* Installation::
+* API Reference::
+
+Appendices
+
+* GNU Free Documentation License::  The license of this manual.
+
+Indices
+
+* Type Index::
+* Procedure Index::
+* Concept Index::
+
+@end menu
+
+@contents
+
+@c -----------------------------------------------------------------------------
+@node Introduction
+@chapter Introduction
+
+Guile-PNM is a @url{https://www.gnu.org/software/guile/, GNU Guile} library
+for NetBPM (PNM) format.
+
+@include guile-pnm-installation.texi
+
+@c -----------------------------------------------------------------------------
+@node API Reference
+@chapter API Reference
+
+This chapter describes the Guile-PNM API.
+
+@menu
+* PNM::                  High-level procedures to read and write images.
+* PNM Image::            PNM image type.
+
+@end menu
+
+@c -----------------------------------------------------------------------------
+@node PNM
+@section PNM
+
+@code{(pnm)} module contains the basic PNM procedures to read/write PNM
+images.
+
+@deffn {Scheme Procedure} pnm->scm [port=(current-input-port) @
+                                   [#:debug-mode?=#f]
+
+Read and parse PNM image data from a @var{port}, return an
+instance of a @code{<pnm-image>} sub-class, or throw a @code{pnm-error} on
+errors.
+
+@end deffn
+
+@deffn {Scheme Procedure} scm->pnm image @
+                                   [port=(current-output-port)]
+
+Convert an @var{image} to a PNM format, print the output to a @var{port}.
+
+Return value is undefined.
+
+@end deffn
+
+@deffn {Scheme Procedure} pnm-type [port=(current-output-port)] @
+                                   [#:debug-mode?=#f]
+
+Read data from a @var{port} and determine if the data is a PNM image.  Return
+the type of the image as a symbol, or #f if the input data is not a PNM image.
+
+@end deffn
+
+@c -----------------------------------------------------------------------------
+@node PNM Image
+@section PNM Image
+
+@c -----------------------------------------------------------------------------
+@subsection Generic PNM image
+
+@deftp {Class} <pnm-image> [#:commentary=#f] @
+                           [#:width=#f] @
+                           [#:height=#f] @
+                           [#:data=#()]
+
+This class represents a generic PNM image.
+
+Constructor parameters:
+
+@table @asis
+@item #:width
+Image width.
+@item #:height
+Image height.
+@item #:data (data <vector>)
+Image data as a vector.
+@item #:commentary (comment <string>)
+An optional image commentary.
+@end table
+
+@end deftp
+
+@deffn {Scheme Procedure} pnm-image-commentary image
+Get an @var{image} commentary.
+@end deffn
+
+@deffn {Scheme Procedure} pnm-image-commentary-set! image commentary
+Set an @var{image} commentary.
+@end deffn
+
+@deffn {Scheme Procedure} pnm-image-width image
+@deffnx {Scheme Procedure} pnm-image-width-set! image
+@deffnx {Scheme Procedure} pnm-image-height image
+@deffnx {Scheme Procedure} pnm-image-height-set! image
+Get or set an @var{image} width and height.
+@end deffn
+
+@deffn {Scheme Procedure} pnm-image-data image
+@deffnx {Scheme Procedure} pnm-image-data-set! image
+Get or set the @var{image} data.
+@end deffn
+
+@deffn {Scheme Procedure} pnm-image->pnm image port
+
+Print an @var{image} to a @var{port}.
+
+@end deffn
+
+@c -----------------------------------------------------------------------------
+@subsection PBM
+
+@deftp {Class} <pbm-ascii-image> [#:commentary=#f] @
+                                 [#:width=#f] @
+                                 [#:height=#f] @
+                                 [#:data=#()]
+
+This class represents a PBM ASCII image.
+
+@end deftp
+
+@deftp {Class} <pbm-binary-image> [#:commentary=#f] @
+                                  [#:width=#f] @
+                                  [#:height=#f] @
+                                  [#:data=#()]
+
+This class represents a PBM binary image.
+
+@end deftp
+
+@c -----------------------------------------------------------------------------
+@subsection PGM
+
+@deftp {Class} <pgm-ascii-image> [#:commentary=#f] @
+                                 [#:width=#f] @
+                                 [#:height=#f] @
+                                 [#:data=#()] @
+                                 [#:grayscale-maxiumum-value=16]
+
+This class represents a PGM ASCII image.
+
+@end deftp
+
+@deftp {Class} <pgm-binary-image> [#:commentary=#f] @
+                                  [#:width=#f] @
+                                  [#:height=#f] @
+                                  [#:data=#()] @
+                                  [#:grayscale-maxiumum-value=16]
+
+This class represents a PGM binary image.
+
+@end deftp
+
+@deffn {Scheme Procedure} pnm-image-grayscale-maximum-value image
+@deffnx {Scheme Procedure} pnm-image-grayscale-maximum-value-set! image
+Get or set a PGM @var{image} grayscale maxiumum value.
+@end deffn
+
+@c -----------------------------------------------------------------------------
+@subsection PPM
+
+@deftp {Class} <ppm-ascii-image> [#:commentary=#f] @
+                                 [#:width=#f] @
+                                 [#:height=#f] @
+                                 [#:data=#()] @
+                                 [#:color-maxiumum-value=16]
+
+This class represents a PPM ASCII image.
+
+@end deftp
+
+@deftp {Class} <ppm-binary-image> [#:commentary=#f] @
+                                  [#:width=#f] @
+                                  [#:height=#f] @
+                                  [#:data=#()] @
+                                  [#:color-maxiumum-value=16]
+
+This class represents a PPM binary image.
+
+@end deftp
+
+@deffn {Scheme Procedure} pnm-image-color-maximum-value image
+@deffnx {Scheme Procedure} pnm-image-color-maximum-value-set! image
+Get or set a PPM @var{image} color maxiumum value.
+@end deffn
+
+@c -----------------------------------------------------------------------------
+@node GNU Free Documentation License
+@appendix GNU Free Documentation License
+
+@include fdl.texi
+
+@include indices.texi
+
+@bye
