@@ -111,7 +111,7 @@
                     row
                     (+ column 1))))))))
 
-(define-class <pbm-binary-image> (<pnm-image>))
+(define-class <pbm-binary-image> (<pbm-image>))
 
 (define-method (pnm-image->pnm (image <pbm-binary-image>) (port <port>))
   (let* ((width       (pnm-image-width image))
