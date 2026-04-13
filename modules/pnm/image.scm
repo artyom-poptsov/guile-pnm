@@ -55,7 +55,8 @@
             pnm-image->pnm
 
             ;; Converters.
-            pnm-image->pbm-binary-image))
+            pnm-image->pbm-binary-image
+            pnm-image->pbm-ascii-image))
 
 
 (define-class <pnm-image> ()
@@ -250,6 +251,46 @@ set and have a proper value."
       (format port "# ~a~%" (pnm-image-commentary image)))
     (format port "~a ~a~%" width height)
     (put-bytevector port (u8-list->bytevector (vector->list data)))))
+
+(define-method (pnm-image->pbm-ascii-image (image <pbm-binary-image>))
+  (define (binary-data->ascii-data data width)
+    (let ((data-length (vector-length data))
+          (extra-bits  (remainder width 8)))
+      (let loop ((index      0)
+                 (column     0)
+                 (byte-index 7)
+                 (result     '()))
+        (if (< index data-length)
+            (let* ((byte  (vector-ref data index))
+                   (value (if (logbit? byte-index byte) 1 0)))
+              (cond
+               ((= column (- width 1))
+                (loop (+ index 1)
+                      0 ; column
+                      7 ; byte-index
+                      (cons value result)))
+               ((> byte-index 0)
+                (loop index
+                      (+ column 1)
+                      (- byte-index 1)
+                      (cons value result)))
+               ((zero? byte-index)
+                (loop (+ index 1)
+                      (+ column 1)
+                      7 ; byte-index
+                      (cons value result)))))
+            (list->vector (reverse result))))))
+
+  (let* ((width       (pnm-image-width image))
+         (height      (pnm-image-height image))
+         (commentary  (pnm-image-commentary image))
+         (data        (pnm-image-data image))
+         (data        (binary-data->ascii-data data width)))
+    (make <pbm-ascii-image>
+      #:width width
+      #:height height
+      #:commentary commentary
+      #:data data)))
 
 
 
