@@ -6,8 +6,11 @@
            throw-unexpected-eof
            throw-format-error
            pnm-set-width
+           set-width/binary
            pnm-set-height
+           set-height/binary
            pnm-append-comment
+           append-comment/binary
            none))
 
 
@@ -39,9 +42,29 @@
                          (acons 'width width
                                 (alist-delete 'width result))))))
 
+(define (set-width/binary ctx pnm)
+  (let* ((result (context-result ctx))
+         (buffer (list->string (map integer->char
+                                    (context-buffer/reversed ctx))))
+         (width  (string->number buffer)))
+    (clear-buffer
+     (context-result-set ctx
+                         (acons 'width width
+                                (alist-delete 'width result))))))
+
 (define (pnm-set-height ctx pnm)
   (let* ((result (context-result ctx))
          (buffer (list->string (context-buffer/reversed ctx)))
+         (height (string->number buffer)))
+    (clear-buffer
+     (context-result-set ctx
+                         (acons 'height height
+                                (alist-delete 'height result))))))
+
+(define (set-height/binary ctx pnm)
+  (let* ((result (context-result ctx))
+         (buffer (list->string (map integer->char
+                                    (context-buffer/reversed ctx))))
          (height (string->number buffer)))
     (clear-buffer
      (context-result-set ctx
@@ -52,6 +75,20 @@
   (let* ((result      (context-result ctx))
          (buffer      (context-buffer/reversed ctx))
          (new-comment (string-trim-both (list->string buffer)))
+         (pbm-comment (if (assoc-ref result 'comment)
+                          (assoc-ref result 'comment)
+                          ""))
+         (comment     (string-append pbm-comment new-comment)))
+    (clear-buffer
+     (context-result-set ctx
+                         (acons 'comment comment
+                                (alist-delete 'comment result))))))
+
+(define (append-comment/binary ctx ch)
+  (let* ((result      (context-result ctx))
+         (buffer      (context-buffer/reversed ctx))
+         (new-comment (string-trim-both (list->string
+                                         (map integer->char buffer))))
          (pbm-comment (if (assoc-ref result 'comment)
                           (assoc-ref result 'comment)
                           ""))
