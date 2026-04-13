@@ -33,9 +33,12 @@
   #:use-module (pnm fsm p2-context)
   #:use-module (pnm fsm p3)
   #:use-module (pnm fsm p3-context)
+  #:use-module (pnm fsm p4)
+  #:use-module (pnm fsm p4-context)
   #:use-module (pnm fsm pnm)
   #:use-module (pnm fsm pnm-context)
   #:use-module (pnm fsm context)
+  #:use-module ((pnm fsm u8-context) #:renamer (symbol-prefix-proc 'u8:))
   #:use-module (pnm core error)
   #:export (pnm-type
             pnm->scm
@@ -72,6 +75,20 @@ the type of the image as a symbol, or #f if the input data is not a PNM image."
          (new-context (fsm-run! fsm context))
          (result      (context-result new-context)))
     (make <pbm-image>
+      #:commentary (assoc-ref result 'comment)
+      #:width      (assoc-ref result 'width)
+      #:height     (assoc-ref result 'height)
+      #:data       (assoc-ref result 'data))))
+
+(define* (pbm-binary->scm #:optional
+                   (port (current-input-port))
+                   #:key
+                   (debug-mode? #f))
+  (let* ((fsm         (make <p4-fsm> #:debug-mode? debug-mode?))
+         (context     (u8:make-u8-context #:port port))
+         (new-context (fsm-run! fsm context))
+         (result      (u8:context-result new-context)))
+    (make <pbm-binary-image>
       #:commentary (assoc-ref result 'comment)
       #:width      (assoc-ref result 'width)
       #:height     (assoc-ref result 'height)
@@ -128,6 +145,8 @@ the type of the image as a symbol, or #f if the input data is not a PNM image."
        (pgm->scm port #:debug-mode? debug-mode?))
       ((ppm-ascii)
        (ppm->scm port #:debug-mode? debug-mode?))
+      ((pbm-binary)
+       (pbm-binary->scm port #:debug-mode? debug-mode?))
       (else
        (pnm-error "Unsupported image format" type)))))
 
