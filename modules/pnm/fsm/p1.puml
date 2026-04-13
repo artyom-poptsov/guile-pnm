@@ -61,6 +61,7 @@ read_comment --> [*]: char:eof-object? -> throw-unexpected-eof
 read_comment --> lookup_width: char:newline? -> pnm-append-comment
 read_comment -> read_comment: guard:#t -> push-event-to-buffer
 
+validate_image: event-source: none
 validate_image: entry-action: pbm-validate-image
 validate_image --> [*]
 

@@ -10,7 +10,8 @@
                throw-format-error
                pnm-append-comment
                pnm-set-width
-               pnm-set-height)
+               pnm-set-height
+               none)
   #:export (pbm-init-result
             pbm-set-data
             pbm-validate-image
