@@ -88,9 +88,9 @@ the type of the image as a symbol, or #f if the input data is not a PNM image."
       #:data       (assoc-ref result 'data))))
 
 (define* (pbm-binary->scm #:optional
-                   (port (current-input-port))
-                   #:key
-                   (debug-mode? #f))
+                          (port (current-input-port))
+                          #:key
+                          (debug-mode? #f))
   (let* ((fsm         (make <p4-fsm> #:debug-mode? debug-mode?))
          (context     (u8:make-u8-context #:port port))
          (new-context (fsm-run! fsm context))
@@ -120,9 +120,9 @@ the type of the image as a symbol, or #f if the input data is not a PNM image."
       #:data       (assoc-ref result 'data))))
 
 (define* (pgm-binary->scm #:optional
-                   (port (current-input-port))
-                   #:key
-                   (debug-mode? #f))
+                          (port (current-input-port))
+                          #:key
+                          (debug-mode? #f))
   (let* ((fsm         (make <p5-fsm> #:debug-mode? debug-mode?))
          (context     (u8:make-u8-context #:port port))
          (new-context (fsm-run! fsm context))
