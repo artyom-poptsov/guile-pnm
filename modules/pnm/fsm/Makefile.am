@@ -31,6 +31,8 @@ SOURCES = \
   p4-context.scm \
   p5.scm \
   p5-context.scm \
+  p6.scm \
+  p6-context.scm \
   pnm.scm \
   pnm-context.scm
 
@@ -53,6 +55,8 @@ EXTRA_DIST += \
   p4.scm \
   p5.puml \
   p5.scm \
+  p6.puml \
+  p6.scm \
   pnm.puml \
   pnm.scm
 
@@ -116,6 +120,15 @@ GUILE_SMC_P5_ARGS = \
   -U "((pnm fsm u8-context) (pnm fsm p5-context))" \
   --validate
 
+GUILE_SMC_P6_ARGS = \
+  --log-driver file \
+  --log-opt "file=p6.log" \
+  -L $(abs_top_srcdir)/modules:$(abs_top_builddir)/modules \
+  --fsm-name p6-fsm \
+  --fsm-module "(pnm fsm p6)" \
+  -U "((pnm fsm u8-context) (pnm fsm p6-context))" \
+  --validate
+
 GUILE_SMC_PNM_ARGS = \
   --log-driver file \
   --log-opt "file=pnm.log" \
@@ -137,6 +150,8 @@ GUILE_SMC_P2_ARGS += \
 GUILE_SMC_P3_ARGS += \
   --target=guile-standalone
 GUILE_SMC_P4_ARGS += \
+  --target=guile-standalone
+GUILE_SMC_P6_ARGS += \
   --target=guile-standalone
 GUILE_SMC_PNM_ARGS += \
   --target=guile-standalone
@@ -170,6 +185,10 @@ p5.scm: p5-context.scm p5.puml
 	@echo "  SMC      $@"
 	@$(GUILE_SMC_ENV) smc compile $(GUILE_SMC_P5_ARGS) p5.puml > $@
 
+p6.scm: p6-context.scm p6.puml
+	@echo "  SMC      $@"
+	@$(GUILE_SMC_ENV) smc compile $(GUILE_SMC_P6_ARGS) p6.puml > $@
+
 pnm.scm: pnm-context.scm pnm.puml
 	@echo "  SMC      $@"
 	@$(GUILE_SMC_ENV) smc compile $(GUILE_SMC_PNM_ARGS) pnm.puml > $@
@@ -190,6 +209,8 @@ CLEANFILES += \
   p3.log	\
   p4.log	\
   p4.scm	\
+  p6.log	\
+  p6.scm	\
   pnm.scm	\
   pnm.log	\
   u8-context.scm	\
