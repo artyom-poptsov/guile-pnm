@@ -20,6 +20,7 @@
 include $(top_srcdir)/build-aux/am/guile.am
 
 SOURCES = \
+  common.scm \
   error.scm
 
 moddir=$(prefix)/share/guile/site/$(GUILE_EFFECTIVE_VERSION)/pnm/fsm/core/
