@@ -37,6 +37,8 @@
   #:use-module (pnm fsm p4-context)
   #:use-module (pnm fsm p5)
   #:use-module (pnm fsm p5-context)
+  #:use-module (pnm fsm p6)
+  #:use-module (pnm fsm p6-context)
   #:use-module (pnm fsm pnm)
   #:use-module (pnm fsm pnm-context)
   #:use-module (pnm fsm context)
