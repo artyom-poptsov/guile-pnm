@@ -50,8 +50,11 @@
 
             ;; Specific format handlers
             pbm->scm
+            pbm-binary->scm
             pgm->scm
-            ppm->scm))
+            pgm-binary->scm
+            ppm->scm
+            ppm-binary->scm))
 
 (define* (pnm-type #:optional
                    (port (current-input-port))
