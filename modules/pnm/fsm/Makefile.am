@@ -27,14 +27,18 @@ SOURCES = \
   p2-context.scm \
   p3.scm \
   p3-context.scm \
+  p4.scm \
+  p4-context.scm \
   pnm.scm \
   pnm-context.scm
 
 BUILT_SOURCES = \
-  context.scm
+  context.scm \
+  u8-context.scm
 
 INSTALL += \
-  context.scm
+  context.scm \
+  u8-context.scm
 
 EXTRA_DIST += \
   p1.puml \
@@ -54,6 +58,12 @@ GUILE_SMC_CONTEXT_ARGS = \
   --log-opt "file=context.log" \
   --type functional/char \
   -m "(pnm fsm context)"
+
+GUILE_SMC_U8_CONTEXT_ARGS = \
+  --log-driver file \
+  --log-opt "file=u8-context.log" \
+  --type functional/u8 \
+  -m "(pnm fsm u8-context)"
 
 GUILE_SMC_P1_ARGS = \
   --log-driver file \
@@ -82,6 +92,15 @@ GUILE_SMC_P3_ARGS = \
   -U "((pnm fsm context) (pnm fsm p3-context))" \
   --validate
 
+GUILE_SMC_P4_ARGS = \
+  --log-driver file \
+  --log-opt "file=p4.log" \
+  -L $(abs_top_srcdir)/modules:$(abs_top_builddir)/modules \
+  --fsm-name p4-fsm \
+  --fsm-module "(pnm fsm p4)" \
+  -U "((pnm fsm u8-context) (pnm fsm p4-context))" \
+  --validate
+
 GUILE_SMC_PNM_ARGS = \
   --log-driver file \
   --log-opt "file=pnm.log" \
@@ -102,6 +121,8 @@ GUILE_SMC_P2_ARGS += \
   --target=guile-standalone
 GUILE_SMC_P3_ARGS += \
   --target=guile-standalone
+GUILE_SMC_P4_ARGS += \
+  --target=guile-standalone
 GUILE_SMC_PNM_ARGS += \
   --target=guile-standalone
 endif
@@ -109,6 +130,10 @@ endif
 context.scm:
 	@echo "  SMC      $@"
 	@$(GUILE_SMC_ENV) smc context $(GUILE_SMC_CONTEXT_ARGS) > $@
+
+u8-context.scm:
+	@echo "  SMC      $@"
+	@$(GUILE_SMC_ENV) smc context $(GUILE_SMC_U8_CONTEXT_ARGS) > $@
 
 p1.scm: p1-context.scm p1.puml
 	@echo "  SMC      $@"
@@ -121,6 +146,10 @@ p2.scm: p2-context.scm p2.puml
 p3.scm: p3-context.scm p3.puml
 	@echo "  SMC      $@"
 	@$(GUILE_SMC_ENV) smc compile $(GUILE_SMC_P3_ARGS) p3.puml > $@
+
+p4.scm: p4-context.scm p4.puml
+	@echo "  SMC      $@"
+	@$(GUILE_SMC_ENV) smc compile $(GUILE_SMC_P4_ARGS) p4.puml > $@
 
 pnm.scm: pnm-context.scm pnm.puml
 	@echo "  SMC      $@"
