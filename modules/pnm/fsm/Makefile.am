@@ -209,6 +209,8 @@ CLEANFILES += \
   p3.log	\
   p4.log	\
   p4.scm	\
+  p5.log	\
+  p5.scm	\
   p6.log	\
   p6.scm	\
   pnm.scm	\
