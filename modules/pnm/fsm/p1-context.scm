@@ -45,6 +45,19 @@
                                 (alist-delete 'data result))))))
 
 (define (pbm-validate-image ctx)
-  ctx)
+  (let* ((result     (context-result ctx))
+         (width      (assoc-ref result 'width))
+         (height     (assoc-ref result 'height))
+         (commentary (assoc-ref result 'comment))
+         (data       (assoc-ref result 'data)))
+    (unless (> width 0)
+      (pnm-error "Width must be greater than zero" result width))
+    (unless (> height 0)
+      (pnm-error "Height must be greater than zero" result height))
+    (unless data
+      (pnm-error "Data must be set" result data))
+    (unless (> (vector-length data) 0)
+      (pnm-error "Data must be a vector with non-zero length" result data))
+    ctx))
 
 ;; pbm-context.scm ends here.
