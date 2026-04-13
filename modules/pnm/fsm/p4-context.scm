@@ -23,21 +23,9 @@
                             (height    . #f)
                             (data      . #f))))
 
-(define (stanza->data stanza)
-  (list->vector
-   (reverse (map (lambda (element)
-                   (string->number
-                    (list->string (reverse element))))
-                 stanza))))
-
 (define (p4-set-data ctx pnm)
   (let* ((result (context-result ctx))
-         (stanza (context-stanza ctx))
-         (buffer (context-buffer ctx))
-         (data
-          (if (null? buffer)
-              (stanza->data stanza)
-              (stanza->data (cons buffer stanza)))))
+         (data   (list->vector (reverse (context-buffer ctx)))))
     (clear-stanza
      (context-result-set ctx
                          (acons 'data data

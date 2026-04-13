@@ -17,7 +17,7 @@ read_magic_number_1 --> [*]: guard:#t -> throw-magic-number-error
 read_magic_number_2: Read the second byte of a PBM image.  It is expecting
 read_magic_number_2: to be a single digit "1".
 read_magic_number_2 --> [*]: u8:eof-object? -> throw-unexpected-eof
-read_magic_number_2 --> lookup_width: u8:digit-one?
+read_magic_number_2 --> lookup_width: u8:digit-four?
 read_magic_number_2 --> [*]: guard:#t -> throw-magic-number-error
 
 lookup_width: Lookup the image width value.
@@ -40,24 +40,13 @@ lookup_height -> read_height: u8:digit? -> push-event-to-buffer
 lookup_height --> [*]: guard:#t -> throw-format-error
 
 read_height: Read the image height value.
-read_height -> lookup_data: u8:space? -> set-height/binary
-read_height -> lookup_data: u8:newline? -> set-height/binary
+read_height -> read_data: u8:newline? -> set-height/binary
 read_height -> read_height: u8:digit? -> push-event-to-buffer
 read_height --> [*]: guard:#t -> throw-format-error
 
-lookup_data: Lookup the image data.
-lookup_data --> validate_image: u8:eof-object? -> p4-set-data
-lookup_data --> read_data: u8:digit? -> push-event-to-buffer
-lookup_data -> lookup_data: u8:space?
-lookup_data -> lookup_data: u8:newline?
-lookup_data --> validate_image: u8:eof-object? -> p4-set-data
-
 read_data: Read the image data.
 read_data --> validate_image: u8:eof-object? -> p4-set-data
-read_data -> read_data: u8:digit? -> push-event-to-buffer
-read_data --> lookup_data: u8:newline? -> push-buffer-to-stanza
-read_data --> lookup_data: u8:space? -> push-buffer-to-stanza
-read_data --> validate_image: u8:eof-object? -> p4-set-data
+read_data -> read_data: guard:#t -> push-event-to-buffer
 
 read_comment --> [*]: u8:eof-object? -> throw-unexpected-eof
 read_comment --> lookup_width: u8:newline? -> append-comment/binary
