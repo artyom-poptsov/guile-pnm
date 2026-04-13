@@ -158,7 +158,9 @@ pnm.scm: pnm-context.scm pnm.puml
 # XXX: Automake does not remove those files for some reason.
 uninstall-hook:
 	rm -f $(DESTDIR)$(datadir)/guile/site/$(GUILE_EFFECTIVE_VERSION)/pnm/fsm/context.scm \
-		$(DESTDIR)$(libdir)/guile/3.0/site-ccache/pnm/fsm/context.scm
+		$(DESTDIR)$(libdir)/guile/3.0/site-ccache/pnm/fsm/context.scm \
+		$(DESTDIR)$(datadir)/guile/site/$(GUILE_EFFECTIVE_VERSION)/pnm/fsm/u8-context.scm \
+		$(DESTDIR)$(libdir)/guile/3.0/site-ccache/pnm/fsm/u8-context.scm
 
 CLEANFILES += \
   p1.scm	\
@@ -167,8 +169,12 @@ CLEANFILES += \
   p2.log	\
   p3.scm	\
   p3.log	\
+  p4.log	\
+  p4.scm	\
   pnm.scm	\
   pnm.log	\
+  u8-context.scm	\
+  u8-context.log	\
   context.scm	\
   context.log
 
