@@ -10,6 +10,7 @@
 
 (define %topdir (getenv "abs_top_srcdir"))
 (define %test-p4-file (format #f "~a/tests/image/p4.pbm" %topdir))
+(define %test-p5-file (format #f "~a/tests/image/p5.pgm" %topdir))
 
 (define %test-name "pnm")
 
@@ -140,6 +141,13 @@
 
 (test-assert "pnm->scm: p4"
   (let ((img (pnm->scm (open-input-file %test-p4-file)
+                       #:debug-mode? #t)))
+    (with-output-to-string
+      (lambda ()
+        (scm->pnm img (current-output-port))))))
+
+(test-assert "pnm->scm: p5"
+  (let ((img (pnm->scm (open-input-file %test-p5-file)
                        #:debug-mode? #t)))
     (with-output-to-string
       (lambda ()

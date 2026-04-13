@@ -35,6 +35,8 @@
   #:use-module (pnm fsm p3-context)
   #:use-module (pnm fsm p4)
   #:use-module (pnm fsm p4-context)
+  #:use-module (pnm fsm p5)
+  #:use-module (pnm fsm p5-context)
   #:use-module (pnm fsm pnm)
   #:use-module (pnm fsm pnm-context)
   #:use-module (pnm fsm context)
@@ -112,6 +114,21 @@ the type of the image as a symbol, or #f if the input data is not a PNM image."
       #:grayscale-maxiumum-value (assoc-ref result 'grayscale)
       #:data       (assoc-ref result 'data))))
 
+(define* (pgm-binary->scm #:optional
+                   (port (current-input-port))
+                   #:key
+                   (debug-mode? #f))
+  (let* ((fsm         (make <p5-fsm> #:debug-mode? debug-mode?))
+         (context     (u8:make-u8-context #:port port))
+         (new-context (fsm-run! fsm context))
+         (result      (u8:context-result new-context)))
+    (make <pgm-binary-image>
+      #:commentary (assoc-ref result 'comment)
+      #:width      (assoc-ref result 'width)
+      #:height     (assoc-ref result 'height)
+      #:grayscale-maxiumum-value (assoc-ref result 'grayscale)
+      #:data       (assoc-ref result 'data))))
+
 
 ;; PPM
 
@@ -147,6 +164,8 @@ the type of the image as a symbol, or #f if the input data is not a PNM image."
        (ppm->scm port #:debug-mode? debug-mode?))
       ((pbm-binary)
        (pbm-binary->scm port #:debug-mode? debug-mode?))
+      ((pgm-binary)
+       (pgm-binary->scm port #:debug-mode? debug-mode?))
       (else
        (pnm-error "Unsupported image format" type)))))
 
