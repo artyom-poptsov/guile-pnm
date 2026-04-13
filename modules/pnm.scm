@@ -31,14 +31,23 @@
   #:use-module (pnm fsm p1-context)
   #:use-module (pnm fsm p2)
   #:use-module (pnm fsm p2-context)
+  #:use-module (pnm fsm p3)
+  #:use-module (pnm fsm p3-context)
   #:use-module (pnm fsm pnm)
   #:use-module (pnm fsm pnm-context)
   #:use-module (pnm fsm context)
-  #:export (pbm->scm
+  #:use-module (pnm core error)
+  #:export (pnm-type
+            pnm->scm
+            scm->pnm
+
+            ;; Specific format handlers
+            pbm->scm
             pgm->scm
+            ppm->scm
             scm->pbm
             scm->pgm
-            pnm-type))
+            scm->ppm))
 
 (define* (pnm-type #:optional
                    (port (current-input-port))
@@ -95,6 +104,52 @@ the type of the image as a symbol, or #f if the input data is not a PNM image."
       #:data       (assoc-ref result 'data))))
 
 (define* (scm->pgm image
+                   #:optional
+                   (port (current-output-port)))
+  (pnm-image->pnm image port))
+
+
+;; PPM
+
+(define* (ppm->scm #:optional
+                   (port (current-input-port))
+                   #:key
+                   (debug-mode? #f))
+  (let* ((fsm         (make <p3-fsm> #:debug-mode? debug-mode?))
+         (context     (make-char-context #:port port))
+         (new-context (fsm-run! fsm context))
+         (result      (context-result new-context)))
+    (make <ppm-image>
+      #:commentary (assoc-ref result 'comment)
+      #:width      (assoc-ref result 'width)
+      #:height     (assoc-ref result 'height)
+      #:color-maxiumum-value (assoc-ref result 'color)
+      #:data       (assoc-ref result 'data))))
+
+(define* (scm->ppm image
+                   #:optional
+                   (port (current-output-port)))
+  (pnm-image->pnm image port))
+
+
+;; Generic PNM handler.
+
+(define* (pnm->scm #:optional
+                   (port (current-input-port))
+                   #:key
+                   (debug-mode? #f))
+  (let ((type (pnm-type port)))
+    (case type
+      ((pbm-ascii)
+       (pbm->scm port #:debug-mode? debug-mode?))
+      ((pgm-ascii)
+       (pgm->scm port #:debug-mode? debug-mode?))
+      ((ppm-ascii)
+       (ppm->scm port #:debug-mode? debug-mode?))
+      (else
+       (pnm-error "Unsupported image format" type)))))
+
+(define* (scm->pnm image
                    #:optional
                    (port (current-output-port)))
   (pnm-image->pnm image port))

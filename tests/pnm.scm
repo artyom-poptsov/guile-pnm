@@ -106,6 +106,36 @@
       (pnm-type))))
 
 
+
+(define %test-pbm
+  (string-append
+   (string-join
+    (list
+     "P1"
+     "# This is an example bitmap of the letter \"J\""
+     "6 10"
+     "0 0 0 0 1 0"
+     "0 0 0 0 1 0"
+     "0 0 0 0 1 0"
+     "0 0 0 0 1 0"
+     "0 0 0 0 1 0"
+     "0 0 0 0 1 0"
+     "1 0 0 0 1 0"
+     "0 1 1 1 0 0"
+     "0 0 0 0 0 0"
+     "0 0 0 0 0 0")
+    "\n")
+   "\n"))
+
+(test-equal "pnm->scm"
+  %test-pbm
+  (let ((img (pnm->scm (open-input-string %test-pbm)
+                       #:debug-mode? #t)))
+    (with-output-to-string
+      (lambda ()
+        (scm->pnm img (current-output-port))))))
+
+
 (define exit-status (test-runner-fail-count (test-runner-current)))
 
 (test-end %test-name)
