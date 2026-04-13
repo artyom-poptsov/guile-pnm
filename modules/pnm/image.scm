@@ -40,14 +40,14 @@
             pnm-image-data
             pnm-image-data-set!
 
-            <pbm-image>
+            <pbm-ascii-image>
             <pbm-binary-image>
-            <pgm-image>
+            <pgm-ascii-image>
             <pgm-binary-image>
             pnm-image-grayscale-maximum-value
             pnm-image-grayscale-maximum-value-set!
 
-            <ppm-image>
+            <ppm-ascii-image>
             <ppm-binary-image>
             pnm-image-color-maximum-value
             pnm-image-color-maximum-value-set!
@@ -118,9 +118,9 @@ set and have a proper value."
                  data))))
 
 
-(define-class <pbm-image> (<pnm-image>))
+(define-class <pbm-ascii-image> (<pnm-image>))
 
-(define-method (pnm-image->pnm (image <pbm-image>) (port <port>))
+(define-method (pnm-image->pnm (image <pbm-ascii-image>) (port <port>))
   "Convert an @var{image} into a PNM file."
   (let* ((width       (pnm-image-width image))
          (height      (pnm-image-height image))
@@ -147,7 +147,7 @@ set and have a proper value."
                     row
                     (+ column 1))))))))
 
-(define-class <pbm-binary-image> (<pbm-image>))
+(define-class <pbm-binary-image> (<pbm-ascii-image>))
 
 (define-method (pnm-image->pnm (image <pbm-binary-image>) (port <port>))
   (let* ((width       (pnm-image-width image))
@@ -162,7 +162,7 @@ set and have a proper value."
 
 
 
-(define-class <pgm-image> (<pnm-image>)
+(define-class <pgm-ascii-image> (<pnm-image>)
   ;; REQUIRED.  Maximum grayscale value.
   ;;
   ;; <number>
@@ -172,7 +172,7 @@ set and have a proper value."
    #:getter       pnm-image-grayscale-maximum-value
    #:setter       pnm-image-grayscale-maximum-value-set!))
 
-(define-method (pnm-image->pnm (image <pgm-image>) (port <port>))
+(define-method (pnm-image->pnm (image <pgm-ascii-image>) (port <port>))
   (let* ((width       (pnm-image-width image))
          (height      (pnm-image-height image))
          (grayscale   (pnm-image-grayscale-maximum-value image))
@@ -200,7 +200,7 @@ set and have a proper value."
                     row
                     (+ column 1))))))))
 
-(define-class <pgm-binary-image> (<pgm-image>))
+(define-class <pgm-binary-image> (<pgm-ascii-image>))
 
 (define-method (pnm-image->pnm (image <pgm-binary-image>) (port <port>))
   (let* ((width       (pnm-image-width image))
@@ -216,7 +216,7 @@ set and have a proper value."
     (put-bytevector port (u8-list->bytevector (vector->list data)))))
 
 
-(define-class <ppm-image> (<pnm-image>)
+(define-class <ppm-ascii-image> (<pnm-image>)
   ;; REQUIRED.  Maximum color value.
   ;;
   ;; <number>
@@ -226,7 +226,7 @@ set and have a proper value."
    #:getter       pnm-image-color-maximum-value
    #:setter       pnm-image-color-maximum-value-set!))
 
-(define-method (pnm-image->pnm (image <ppm-image>) (port <port>))
+(define-method (pnm-image->pnm (image <ppm-ascii-image>) (port <port>))
   (let* ((width       (pnm-image-width image))
          (height      (pnm-image-height image))
          (color       (pnm-image-color-maximum-value image))
@@ -254,7 +254,7 @@ set and have a proper value."
                     row
                     (+ column 1))))))))
 
-(define-class <ppm-binary-image> (<ppm-image>))
+(define-class <ppm-binary-image> (<ppm-ascii-image>))
 
 (define-method (pnm-image->pnm (image <ppm-binary-image>) (port <port>))
   (let* ((width       (pnm-image-width image))

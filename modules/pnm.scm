@@ -78,12 +78,12 @@ the type of the image as a symbol, or #f if the input data is not a PNM image."
                          #:key
                          (debug-mode? #f))
   "Read and parse PBM ASCII data (P1) from a @var{port}, return a
-@code{<pbm-image>} instance, or throw a @code{pnm-error} on errors."
+@code{<pbm-ascii-image>} instance, or throw a @code{pnm-error} on errors."
   (let* ((fsm         (make <p1-fsm> #:debug-mode? debug-mode?))
          (context     (make-char-context #:port port))
          (new-context (fsm-run! fsm context))
          (result      (context-result new-context)))
-    (make <pbm-image>
+    (make <pbm-ascii-image>
       #:commentary (assoc-ref result 'comment)
       #:width      (assoc-ref result 'width)
       #:height     (assoc-ref result 'height)
@@ -118,7 +118,7 @@ the type of the image as a symbol, or #f if the input data is not a PNM image."
          (context     (make-char-context #:port port))
          (new-context (fsm-run! fsm context))
          (result      (context-result new-context)))
-    (make <pgm-image>
+    (make <pgm-ascii-image>
       #:commentary (assoc-ref result 'comment)
       #:width      (assoc-ref result 'width)
       #:height     (assoc-ref result 'height)
@@ -155,7 +155,7 @@ the type of the image as a symbol, or #f if the input data is not a PNM image."
          (context     (make-char-context #:port port))
          (new-context (fsm-run! fsm context))
          (result      (context-result new-context)))
-    (make <ppm-image>
+    (make <ppm-ascii-image>
       #:commentary (assoc-ref result 'comment)
       #:width      (assoc-ref result 'width)
       #:height     (assoc-ref result 'height)

@@ -40,7 +40,7 @@
      "0 0 0 0 0 0")
     "\n")
    "\n")
-  (let ((img (make <pbm-image>
+  (let ((img (make <pbm-ascii-image>
                #:width  6
                #:height 10
                #:commentary "This is an example bitmap of the letter \"J\""
@@ -76,7 +76,7 @@
      "0   0   0  ")
     "\n")
    "\n")
-  (let ((img (make <ppm-image>
+  (let ((img (make <ppm-ascii-image>
                #:width  3
                #:height 2
                #:commentary "This is a commentary."
