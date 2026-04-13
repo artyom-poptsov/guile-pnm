@@ -77,6 +77,8 @@ the type of the image as a symbol, or #f if the input data is not a PNM image."
                          (port (current-input-port))
                          #:key
                          (debug-mode? #f))
+  "Read and parse PBM ASCII data (P1) from a @var{port}, return a
+@code{<pbm-image>} instance, or throw a @code{pnm-error} on errors."
   (let* ((fsm         (make <p1-fsm> #:debug-mode? debug-mode?))
          (context     (make-char-context #:port port))
          (new-context (fsm-run! fsm context))
@@ -91,6 +93,8 @@ the type of the image as a symbol, or #f if the input data is not a PNM image."
                           (port (current-input-port))
                           #:key
                           (debug-mode? #f))
+  "Read and parse PBM binary data (P4) from a @var{port}, return a
+@code{<pbm-binary-image>} instance, or throw a @code{pnm-error} on errors."
   (let* ((fsm         (make <p4-fsm> #:debug-mode? debug-mode?))
          (context     (u8:make-u8-context #:port port))
          (new-context (fsm-run! fsm context))
@@ -108,6 +112,8 @@ the type of the image as a symbol, or #f if the input data is not a PNM image."
                          (port (current-input-port))
                          #:key
                          (debug-mode? #f))
+  "Read and parse PGM ASCII (P2) data from a @var{port}, return a
+@code{<pgm-image>} instance, or throw a @code{pnm-error} on errors."
   (let* ((fsm         (make <p2-fsm> #:debug-mode? debug-mode?))
          (context     (make-char-context #:port port))
          (new-context (fsm-run! fsm context))
@@ -123,6 +129,8 @@ the type of the image as a symbol, or #f if the input data is not a PNM image."
                           (port (current-input-port))
                           #:key
                           (debug-mode? #f))
+  "Read and parse PGM binary (P5) data from a @var{port}, return a
+@code{<pgm-binary-image>} instance, or throw a @code{pnm-error} on errors."
   (let* ((fsm         (make <p5-fsm> #:debug-mode? debug-mode?))
          (context     (u8:make-u8-context #:port port))
          (new-context (fsm-run! fsm context))
@@ -141,6 +149,8 @@ the type of the image as a symbol, or #f if the input data is not a PNM image."
                          (port (current-input-port))
                          #:key
                          (debug-mode? #f))
+  "Read and parse PPM ASCII (P3) data from a @var{port}, return a
+@code{<ppm-image>} instance, or throw a @code{pnm-error} on errors."
   (let* ((fsm         (make <p3-fsm> #:debug-mode? debug-mode?))
          (context     (make-char-context #:port port))
          (new-context (fsm-run! fsm context))
@@ -156,6 +166,8 @@ the type of the image as a symbol, or #f if the input data is not a PNM image."
                           (port (current-input-port))
                           #:key
                           (debug-mode? #f))
+  "Read and parse PPM binary (P6) data from a @var{port}, return a
+@code{<ppm-binary-image>} instance, or throw a @code{pnm-error} on errors."
   (let* ((fsm         (make <p6-fsm> #:debug-mode? debug-mode?))
          (context     (u8:make-u8-context #:port port))
          (new-context (fsm-run! fsm context))
@@ -174,6 +186,9 @@ the type of the image as a symbol, or #f if the input data is not a PNM image."
                    (port (current-input-port))
                    #:key
                    (debug-mode? #f))
+  "Read and parse PNM image data from a @var{port}, return an
+instance of a @code{<pnm-image>} sub-class, or throw a @code{pnm-error} on
+errors."
   (let ((type (pnm-type port)))
     (case type
       ((pbm-ascii)
@@ -194,6 +209,7 @@ the type of the image as a symbol, or #f if the input data is not a PNM image."
 (define* (scm->pnm image
                    #:optional
                    (port (current-output-port)))
+  "Print a PNM @var{image} to a @var{port}."
   (pnm-image->pnm image port))
 
 ;; pnm.scm ends here.
