@@ -59,6 +59,18 @@
             pnm-image->pbm-ascii-image))
 
 
+;; Helper procedures.
+
+(define-method (pnm-print-commentary (port <port>) commentary)
+  (when commentary
+    (format port "# ~a~%" commentary)))
+
+(define-method (pnm-print-dimensions (port <port>)
+                                     (width <number>)
+                                     (height <number>))
+  (format port "~a ~a~%" width height))
+
+
 (define-class <pnm-image> ()
   ;; Image commentary.
   ;;
@@ -148,9 +160,8 @@ set and have a proper value."
          (data        (pnm-image-data image))
          (data-length (vector-length data)))
     (format port "P1~%")
-    (when (pnm-image-commentary image)
-      (format port "# ~a~%" (pnm-image-commentary image)))
-    (format port "~a ~a~%" width height)
+    (pnm-print-commentary port (pnm-image-commentary image))
+    (pnm-print-dimensions port width height)
     (let loop ((index  0)
                (row    0)
                (column 0))
@@ -247,9 +258,8 @@ set and have a proper value."
          (data        (pnm-image-data image))
          (data-length (vector-length data)))
     (format port "P4~%")
-    (when (pnm-image-commentary image)
-      (format port "# ~a~%" (pnm-image-commentary image)))
-    (format port "~a ~a~%" width height)
+    (pnm-print-commentary port (pnm-image-commentary image))
+    (pnm-print-dimensions port width height)
     (put-bytevector port (u8-list->bytevector (vector->list data)))))
 
 (define-method (pnm-image->pbm-ascii-image (image <pbm-binary-image>))
@@ -320,9 +330,8 @@ set and have a proper value."
          (data        (pnm-image-data image))
          (data-length (vector-length data)))
     (format port "P2~%")
-    (when (pnm-image-commentary image)
-      (format port "# ~a~%" (pnm-image-commentary image)))
-    (format port "~a ~a~%" width height)
+    (pnm-print-commentary port (pnm-image-commentary image))
+    (pnm-print-dimensions port width height)
     (format port "~a~%" grayscale)
     (let loop ((index  0)
                (row    0)
@@ -357,9 +366,8 @@ set and have a proper value."
          (data        (pnm-image-data image))
          (data-length (vector-length data)))
     (format port "P5~%")
-    (when (pnm-image-commentary image)
-      (format port "# ~a~%" (pnm-image-commentary image)))
-    (format port "~a ~a~%" width height)
+    (pnm-print-commentary port (pnm-image-commentary image))
+    (pnm-print-dimensions port width height)
     (format port "~a~%" grayscale)
     (put-bytevector port (u8-list->bytevector (vector->list data)))))
 
@@ -388,9 +396,8 @@ set and have a proper value."
          (data        (pnm-image-data image))
          (data-length (vector-length data)))
     (format port "P3~%")
-    (when (pnm-image-commentary image)
-      (format port "# ~a~%" (pnm-image-commentary image)))
-    (format port "~a ~a~%" width height)
+    (pnm-print-commentary port (pnm-image-commentary image))
+    (pnm-print-dimensions port width height)
     (format port "~a~%" color)
     (let loop ((index  0)
                (row    0)
@@ -425,9 +432,8 @@ set and have a proper value."
          (data        (pnm-image-data image))
          (data-length (vector-length data)))
     (format port "P6~%")
-    (when (pnm-image-commentary image)
-      (format port "# ~a~%" (pnm-image-commentary image)))
-    (format port "~a ~a~%" width height)
+    (pnm-print-commentary port (pnm-image-commentary image))
+    (pnm-print-dimensions port width height)
     (format port "~a~%" color)
     (put-bytevector port (u8-list->bytevector (vector->list data)))))
 
