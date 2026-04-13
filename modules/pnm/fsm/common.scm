@@ -86,16 +86,16 @@
                                 (alist-delete 'comment result))))))
 
 (define (append-comment/binary ctx ch)
-  (let* ((result      (context-result ctx))
-         (buffer      (context-buffer/reversed ctx))
+  (let* ((result      (u8:context-result ctx))
+         (buffer      (u8:context-buffer/reversed ctx))
          (new-comment (string-trim-both (list->string
                                          (map integer->char buffer))))
          (pbm-comment (if (assoc-ref result 'comment)
                           (assoc-ref result 'comment)
                           ""))
          (comment     (string-append pbm-comment new-comment)))
-    (clear-buffer
-     (context-result-set ctx
+    (u8:clear-buffer
+     (u8:context-result-set ctx
                          (acons 'comment comment
                                 (alist-delete 'comment result))))))
 
