@@ -1,6 +1,8 @@
 (define-module (pnm image)
   #:use-module (oop goops)
   #:use-module (ice-9 format)
+  #:use-module (ice-9 binary-ports)
+  #:use-module (rnrs bytevectors)
   #:use-module (pnm core common)
   #:use-module (pnm core error)
   #:export (<pnm-image>
@@ -14,6 +16,7 @@
             pnm-image-data-set!
 
             <pbm-image>
+            <pbm-binary-image>
             <pgm-image>
             pnm-image-grayscale-maximum-value
             pnm-image-grayscale-maximum-value-set!
@@ -105,6 +108,19 @@
               (loop (+ index 1)
                     row
                     (+ column 1))))))))
+
+(define-class <pbm-binary-image> (<pnm-image>))
+
+(define-method (pnm-image->pnm (image <pbm-binary-image>) (port <port>))
+  (let* ((width       (pnm-image-width image))
+         (height      (pnm-image-height image))
+         (data        (pnm-image-data image))
+         (data-length (vector-length data)))
+    (format port "P1~%")
+    (when (pnm-image-commentary image)
+      (format port "# ~a~%" (pnm-image-commentary image)))
+    (format port "~a ~a~%" width height)
+    (put-bytevector port (u8-list->bytevector (vector->list data)))))
 
 
 
