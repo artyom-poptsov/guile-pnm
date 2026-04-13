@@ -8,6 +8,9 @@
 (define-method (configure-test-logging! (test-suite-name <string>))
   (smc-log-init! "file" `((file . ,(string-append test-suite-name "-smc.log")))))
 
+(define %topdir (getenv "abs_top_srcdir"))
+(define %test-p4-file (format #f "~a/tests/image/p4.pbm" %topdir))
+
 (define %test-name "pnm")
 
 (configure-test-logging! %test-name)
@@ -130,6 +133,13 @@
 (test-equal "pnm->scm"
   %test-pbm
   (let ((img (pnm->scm (open-input-string %test-pbm)
+                       #:debug-mode? #t)))
+    (with-output-to-string
+      (lambda ()
+        (scm->pnm img (current-output-port))))))
+
+(test-assert "pnm->scm: p4"
+  (let ((img (pnm->scm (open-input-file %test-p4-file)
                        #:debug-mode? #t)))
     (with-output-to-string
       (lambda ()
