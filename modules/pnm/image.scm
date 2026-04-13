@@ -18,6 +18,7 @@
             <pbm-image>
             <pbm-binary-image>
             <pgm-image>
+            <pgm-binary-image>
             pnm-image-grayscale-maximum-value
             pnm-image-grayscale-maximum-value-set!
 
@@ -159,6 +160,21 @@
               (loop (+ index 1)
                     row
                     (+ column 1))))))))
+
+(define-class <pgm-binary-image> (<pgm-image>))
+
+(define-method (pnm-image->pnm (image <pgm-binary-image>) (port <port>))
+  (let* ((width       (pnm-image-width image))
+         (height      (pnm-image-height image))
+         (grayscale   (pnm-image-grayscale-maximum-value image))
+         (data        (pnm-image-data image))
+         (data-length (vector-length data)))
+    (format port "P2~%")
+    (when (pnm-image-commentary image)
+      (format port "# ~a~%" (pnm-image-commentary image)))
+    (format port "~a ~a~%" width height)
+    (format port "~a~%" grayscale)
+    (put-bytevector port (u8-list->bytevector (vector->list data)))))
 
 
 (define-class <ppm-image> (<pnm-image>)
