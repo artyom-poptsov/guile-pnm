@@ -115,6 +115,7 @@ AC_CONFIG_LINKS([
   modules/pnm/fsm/p1.puml:modules/pnm/fsm/p1.puml
   modules/pnm/fsm/p2.puml:modules/pnm/fsm/p2.puml
   modules/pnm/fsm/p3.puml:modules/pnm/fsm/p3.puml
+  modules/pnm/fsm/p4.puml:modules/pnm/fsm/p4.puml
   modules/pnm/fsm/pnm.puml:modules/pnm/fsm/pnm.puml
 ])
 
