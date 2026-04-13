@@ -9,7 +9,7 @@
 # -------------------------------------------------------------------------------
 
 AC_INIT([Guile-PNM],
-  [0.0.0],
+  [0.1.0],
   [poptsov.artyom@gmail.com],
   [guile-pnm],
   [https://github.com/artyom-poptsov/guile-pnm])
