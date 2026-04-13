@@ -2,6 +2,7 @@
   #:use-module (srfi srfi-1)
   #:use-module (pnm core error)
   #:use-module (pnm fsm context)
+  #:use-module ((pnm fsm u8-context) #:renamer (symbol-prefix-proc 'u8:))
   #:export(throw-magic-number-error
            throw-unexpected-eof
            throw-format-error
@@ -43,14 +44,14 @@
                                 (alist-delete 'width result))))))
 
 (define (set-width/binary ctx pnm)
-  (let* ((result (context-result ctx))
+  (let* ((result (u8:context-result ctx))
          (buffer (list->string (map integer->char
-                                    (context-buffer/reversed ctx))))
+                                    (u8:context-buffer/reversed ctx))))
          (width  (string->number buffer)))
-    (clear-buffer
-     (context-result-set ctx
-                         (acons 'width width
-                                (alist-delete 'width result))))))
+    (u8:clear-buffer
+     (u8:context-result-set ctx
+                            (acons 'width width
+                                   (alist-delete 'width result))))))
 
 (define (pnm-set-height ctx pnm)
   (let* ((result (context-result ctx))
@@ -62,14 +63,14 @@
                                 (alist-delete 'height result))))))
 
 (define (set-height/binary ctx pnm)
-  (let* ((result (context-result ctx))
+  (let* ((result (u8:context-result ctx))
          (buffer (list->string (map integer->char
-                                    (context-buffer/reversed ctx))))
+                                    (u8:context-buffer/reversed ctx))))
          (height (string->number buffer)))
-    (clear-buffer
-     (context-result-set ctx
-                         (acons 'height height
-                                (alist-delete 'height result))))))
+    (u8:clear-buffer
+     (u8:context-result-set ctx
+                            (acons 'height height
+                                   (alist-delete 'height result))))))
 
 (define (pnm-append-comment ctx ch)
   (let* ((result      (context-result ctx))
