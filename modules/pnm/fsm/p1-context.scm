@@ -51,6 +51,13 @@
          (height     (assoc-ref result 'height))
          (commentary (assoc-ref result 'comment))
          (data       (assoc-ref result 'data)))
+    (context-log-debug ctx "width: ~s height: ~s data: ~a~%"
+                       width
+                       height
+                       (and data
+                           (format #f
+                                   "~a bytes"
+                                   (vector-length data))))
     (unless (> width 0)
       (pnm-error "Width must be greater than zero" result width))
     (unless (> height 0)
