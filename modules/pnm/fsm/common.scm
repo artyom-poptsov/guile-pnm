@@ -7,7 +7,8 @@
            throw-format-error
            pnm-set-width
            pnm-set-height
-           pnm-append-comment))
+           pnm-append-comment
+           none))
 
 
 ;; Error handling.
@@ -20,6 +21,12 @@
 
 (define (throw-format-error ctx ch)
   (pnm-error "Format error" ctx ch))
+
+
+;; "none" event source
+
+(define (none ctx)
+  #f)
 
 
 

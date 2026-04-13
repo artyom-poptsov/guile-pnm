@@ -5,7 +5,8 @@
   #:use-module (ice-9 textual-ports)
   #:re-export (throw-magic-number-error
                throw-unexpected-eof
-               throw-format-error)
+               throw-format-error
+               none)
   #:export (throw-unsupported-format
             set-type-pbm-ascii
             set-type-pgm-ascii
@@ -14,11 +15,7 @@
             set-type-pgm-binary
             set-type-ppm-binary
             set-type-pam
-            rewind-port
-            none))
-
-(define (none ctx)
-  #f)
+            rewind-port))
 
 
 
