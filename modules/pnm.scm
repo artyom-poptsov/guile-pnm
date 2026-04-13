@@ -149,6 +149,21 @@ the type of the image as a symbol, or #f if the input data is not a PNM image."
       #:color-maxiumum-value (assoc-ref result 'color)
       #:data       (assoc-ref result 'data))))
 
+(define* (ppm-binary->scm #:optional
+                          (port (current-input-port))
+                          #:key
+                          (debug-mode? #f))
+  (let* ((fsm         (make <p6-fsm> #:debug-mode? debug-mode?))
+         (context     (u8:make-u8-context #:port port))
+         (new-context (fsm-run! fsm context))
+         (result      (u8:context-result new-context)))
+    (make <ppm-binary-image>
+      #:commentary (assoc-ref result 'comment)
+      #:width      (assoc-ref result 'width)
+      #:height     (assoc-ref result 'height)
+      #:color-maxiumum-value (assoc-ref result 'color)
+      #:data       (assoc-ref result 'data))))
+
 
 ;; Generic PNM handler.
 
@@ -168,6 +183,8 @@ the type of the image as a symbol, or #f if the input data is not a PNM image."
        (pbm-binary->scm port #:debug-mode? debug-mode?))
       ((pgm-binary)
        (pgm-binary->scm port #:debug-mode? debug-mode?))
+      ((ppm-binary)
+       (ppm-binary->scm port #:debug-mode? debug-mode?))
       (else
        (pnm-error "Unsupported image format" type)))))
 
