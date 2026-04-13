@@ -49,11 +49,11 @@
             scm->pnm
 
             ;; Specific format handlers
-            pbm->scm
+            pbm-ascii->scm
             pbm-binary->scm
-            pgm->scm
+            pgm-ascii->scm
             pgm-binary->scm
-            ppm->scm
+            ppm-ascii->scm
             ppm-binary->scm))
 
 (define* (pnm-type #:optional
@@ -73,10 +73,10 @@ the type of the image as a symbol, or #f if the input data is not a PNM image."
 
 
 
-(define* (pbm->scm #:optional
-                   (port (current-input-port))
-                   #:key
-                   (debug-mode? #f))
+(define* (pbm-ascii->scm #:optional
+                         (port (current-input-port))
+                         #:key
+                         (debug-mode? #f))
   (let* ((fsm         (make <p1-fsm> #:debug-mode? debug-mode?))
          (context     (make-char-context #:port port))
          (new-context (fsm-run! fsm context))
@@ -104,10 +104,10 @@ the type of the image as a symbol, or #f if the input data is not a PNM image."
 
 ;; PGM
 
-(define* (pgm->scm #:optional
-                   (port (current-input-port))
-                   #:key
-                   (debug-mode? #f))
+(define* (pgm-ascii->scm #:optional
+                         (port (current-input-port))
+                         #:key
+                         (debug-mode? #f))
   (let* ((fsm         (make <p2-fsm> #:debug-mode? debug-mode?))
          (context     (make-char-context #:port port))
          (new-context (fsm-run! fsm context))
@@ -137,10 +137,10 @@ the type of the image as a symbol, or #f if the input data is not a PNM image."
 
 ;; PPM
 
-(define* (ppm->scm #:optional
-                   (port (current-input-port))
-                   #:key
-                   (debug-mode? #f))
+(define* (ppm-ascii->scm #:optional
+                         (port (current-input-port))
+                         #:key
+                         (debug-mode? #f))
   (let* ((fsm         (make <p3-fsm> #:debug-mode? debug-mode?))
          (context     (make-char-context #:port port))
          (new-context (fsm-run! fsm context))
@@ -177,11 +177,11 @@ the type of the image as a symbol, or #f if the input data is not a PNM image."
   (let ((type (pnm-type port)))
     (case type
       ((pbm-ascii)
-       (pbm->scm port #:debug-mode? debug-mode?))
+       (pbm-ascii->scm port #:debug-mode? debug-mode?))
       ((pgm-ascii)
-       (pgm->scm port #:debug-mode? debug-mode?))
+       (pgm-ascii->scm port #:debug-mode? debug-mode?))
       ((ppm-ascii)
-       (ppm->scm port #:debug-mode? debug-mode?))
+       (ppm-ascii->scm port #:debug-mode? debug-mode?))
       ((pbm-binary)
        (pbm-binary->scm port #:debug-mode? debug-mode?))
       ((pgm-binary)
