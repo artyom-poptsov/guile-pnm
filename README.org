@@ -1,11 +1,29 @@
 * Guile-PNM
-A GNU Guile library for working with PNM format family (PBM, PGM, PPM.)
+A GNU Guile library for working with [[https://en.wikipedia.org/wiki/Netpbm][PNM]] format family (PBM, PGM, PPM.)
 
 ** License
 Guile-PNM is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
 Foundation, either version 3 of the License, or (at your option) any later
 version. Please see =COPYING= file for the terms of GNU General Public License.
+
+** Installation
+*** GNU Guix
+Development version from =guix.scm=:
+#+BEGIN_EXAMPLE shell
+$ guix build -f guix.scm
+$ guix package -f guix.scm
+#+END_EXAMPLE
+
+*** Manual
+ #+BEGIN_EXAMPLE shell
+$ git clone https://github.com/artyom-poptsov/guile-pnm.git
+$ cd guile-png
+$ autoreconf -vif
+$ ./configure
+$ make -j$(nproc)
+$ sudo make install
+#+END_EXAMPLE
 
 ** Requirements
 - [[https://www.gnu.org/software/guile/][GNU Guile]] 2.2+
