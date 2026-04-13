@@ -35,17 +35,20 @@ read_width -> read_width: char:digit? -> push-event-to-buffer
 read_width --> [*]: guard:#t -> throw-format-error
 
 lookup_height: Lookup the image height value.
+lookup_height --> [*]: char:eof-object? -> throw-unexpected-eof
 lookup_height -> lookup_height: char:space?
 lookup_height -> read_height: char:digit? -> push-event-to-buffer
 lookup_height --> [*]: guard:#t -> throw-format-error
 
 read_height: Read the image height value.
+read_height --> [*]: char:eof-object? -> throw-unexpected-eof
 read_height -> lookup_grayscale_value: char:space? -> pnm-set-height
 read_height -> lookup_grayscale_value: char:newline? -> pnm-set-height
 read_height -> read_height: char:digit? -> push-event-to-buffer
 read_height --> [*]: guard:#t -> throw-format-error
 
 lookup_grayscale_value: Lookup the image grayscale value.
+lookup_grayscale_value --> [*]: char:eof-object? -> throw-unexpected-eof
 lookup_grayscale_value -> lookup_grayscale_value: char:space?
 lookup_grayscale_value -> lookup_grayscale_value: char:newline?
 lookup_grayscale_value --> read_grayscale_value: char:digit? -> push-event-to-buffer
