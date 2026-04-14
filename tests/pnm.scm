@@ -11,6 +11,7 @@
 (define %topdir (getenv "abs_top_srcdir"))
 (define %test-p1-file (format #f "~a/tests/image/p1.pbm" %topdir))
 (define %test-p2-file (format #f "~a/tests/image/p2.pgm" %topdir))
+(define %test-p3-file (format #f "~a/tests/image/p3.ppm" %topdir))
 (define %test-p4-file (format #f "~a/tests/image/p4.pbm" %topdir))
 (define %test-p5-file (format #f "~a/tests/image/p5.pgm" %topdir))
 (define %test-p6-file (format #f "~a/tests/image/p6.ppm" %topdir))
@@ -145,6 +146,13 @@
 (test-equal "pnm->scm: p2"
   (* 25 7)
   (let ((img (pnm->scm (open-input-file %test-p2-file)
+                       #:debug-mode? #t)))
+    (vector-length (pnm-image-data img))))
+
+(test-equal "pnm->scm: p3"
+  (* (* 3 2) ; pixel count
+     3)      ; colors per pixel
+  (let ((img (pnm->scm (open-input-file %test-p3-file)
                        #:debug-mode? #t)))
     (vector-length (pnm-image-data img))))
 

@@ -46,6 +46,7 @@ EXTRA_DIST = \
   ${SCM_TESTS} \
   image/p1.pbm \
   image/p2.pgm \
+  image/p3.pgm \
   image/p4.pbm \
   image/p5.pgm \
   image/p6.ppm
