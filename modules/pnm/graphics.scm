@@ -107,6 +107,8 @@ Return the pixel as a number or throw a pnm-error on error."
 (define-method (pnm-image-pixel-set! (image <pbm-ascii-image>)
                                      (index <number>)
                                      (value <number>))
+  "Set a pixel specified by @var{index} offset in an @var{image} to the specified
+@var{value}.  Return value is undefined."
   (assert-index image index)
   (assert-pixel-value image value)
   (vector-set! (pnm-image-data image) index value))
@@ -115,8 +117,8 @@ Return the pixel as a number or throw a pnm-error on error."
                                      (x <number>)
                                      (y <number>)
                                      (value <number>))
-  "Get a pixel specified by @var{x} and @var{y} coordinates from an @var{image}.
-Return the pixel as a number or throw a pnm-error on error."
+  "Set a pixel specified by @var{x} and @var{y} Cartesian coordinates offset in
+an @var{image} to the specified @var{value}.  Return value is undefined."
   (pnm-image-pixel-set! image
                         (cartesian->index (pnm-image-width image) x y)
                         value))
