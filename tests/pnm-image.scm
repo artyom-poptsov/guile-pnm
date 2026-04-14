@@ -75,6 +75,25 @@
     (assert-index image 100)
     #t))
 
+(test-assert "assert-pixel-value: success"
+  (let ((image (make <pbm-ascii-image>
+                 #:width  6
+                 #:height 10
+                 #:commentary "This is an example bitmap of the letter \"J\""
+                 #:data %test-data)))
+    (assert-pixel-value image 1)
+    #t))
+
+(test-error "assert-pixel-value: failure"
+  'pnm-error
+  (let ((image (make <pbm-ascii-image>
+                 #:width  6
+                 #:height 10
+                 #:commentary "This is an example bitmap of the letter \"J\""
+                 #:data %test-data)))
+    (assert-pixel-value image 10)
+    #t))
+
 (test-equal "pnm-image-pixel: index"
   1
   (let ((img (make <pbm-ascii-image>
@@ -92,6 +111,26 @@
                #:commentary "This is an example bitmap of the letter \"J\""
                #:data %test-data)))
     (pnm-image-pixel img 4 1)))
+
+(test-equal "pnm-image-pixel-set!: index"
+  0
+  (let ((image (make <pbm-ascii-image>
+                 #:width  6
+                 #:height 10
+                 #:commentary "This is an example bitmap of the letter \"J\""
+                 #:data (vector-copy %test-data))))
+    (pnm-image-pixel-set! image 10 0)
+    (pnm-image-pixel image 4 1)))
+
+(test-equal "pnm-image-pixel-set!: x, y"
+  0
+  (let ((image (make <pbm-ascii-image>
+                 #:width  6
+                 #:height 10
+                 #:commentary "This is an example bitmap of the letter \"J\""
+                 #:data (vector-copy %test-data))))
+    (pnm-image-pixel-set! image 4 1 0)
+    (pnm-image-pixel image 4 1)))
 
 
 ;; PGM
