@@ -148,6 +148,24 @@
     (pnm-image-pixel-set! image 4 1 0)
     (pnm-image-pixel image 4 1)))
 
+(test-equal "pnm-image-pixel-set!: <pbm-binary-image>: index"
+  #b00100000
+  (let ((image (make <pbm-binary-image>
+                 #:width  4
+                 #:height 4
+                 #:data #(#b00000000 #b00000000))))
+    (pnm-image-pixel-set! image 10 0)
+    (vector-ref (pnm-image-data image) 1)))
+
+(test-equal "pnm-image-pixel-set!: <pbm-binary-image>: x, y"
+  #b00100000
+  (let ((image (make <pbm-binary-image>
+                 #:width  4
+                 #:height 4
+                 #:data #(#b00000000 #b00000000))))
+    (pnm-image-pixel-set! image 10 1)
+    (vector-ref (pnm-image-data image) 1)))
+
 
 ;; PGM
 (test-equal "make <pgm-ascii-image>"

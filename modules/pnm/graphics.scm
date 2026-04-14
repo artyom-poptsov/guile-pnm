@@ -121,6 +121,32 @@ Return the pixel as a number or throw a pnm-error on error."
                         (cartesian->index (pnm-image-width image) x y)
                         value))
 
+(define-method (pnm-image-pixel-set! (image <pbm-binary-image>)
+                                     (index <number>)
+                                     (value <number>))
+  "Set a pixel specified by @var{index} offset in an @var{image} to the specified
+@var{value}.  Return value is undefined."
+  (assert-index image index)
+  (assert-pixel-value image value)
+  (let* ((byte-index (floor/ index 8))
+         (bit-offset (remainder index 8))
+         (byte       (vector-ref (pnm-image-data image) byte-index))
+         (bit-mask   (ash 1 (- 7 bit-offset)))
+         (byte       (if (zero? value)
+                         (logxor byte bit-mask)
+                         (logior byte bit-mask))))
+  (vector-set! (pnm-image-data image) byte-index byte)))
+
+(define-method (pnm-image-pixel-set! (image <pbm-binary-image>)
+                                     (x <number>)
+                                     (y <number>)
+                                     (value <number>))
+  "Set a pixel specified by @var{x} and @var{y} Cartesian coordinates offset in
+an @var{image} to the specified @var{value}.  Return value is undefined."
+  (pnm-image-pixel-set! image
+                        (cartesian->index (pnm-image-width image) x y)
+                        value))
+
 ;; graphics.scm ends here.
 
 
