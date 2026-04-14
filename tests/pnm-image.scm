@@ -50,6 +50,29 @@
         (pnm-image->pnm img (current-output-port))))))
 
 
+;; PGM
+(test-equal "make <pgm-ascii-image>"
+  (string-append
+   (string-join
+    (list "P2"
+          "2 4"
+          "8"
+          "0   1  "
+          "2   3  "
+          "4   5  "
+          "6   7  ")
+    "\n")
+   "\n")
+  (with-output-to-string
+    (lambda ()
+      (pnm-image->pnm (make <pgm-ascii-image>
+                        #:width  2
+                        #:height 4
+                        #:grayscale-maxiumum-value 8
+                        #:data   #(0 1 2 3 4 5 6 7))
+                      (current-output-port)))))
+
+
 (define %test-ppm-data
   (list->vector
    (list

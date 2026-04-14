@@ -316,6 +316,14 @@ set and have a proper value."
    #:getter       pnm-image-grayscale-maximum-value
    #:setter       pnm-image-grayscale-maximum-value-set!))
 
+(define-method (initialize (image <pgm-ascii-image>) initargs)
+  (next-method)
+  (let ((grayscale (constructor-argument #:grayscale-maxiumum-value
+                                         initargs)))
+    (unless (number? grayscale)
+      (pnm-error "Grayscale maximum value must be a number"
+                 initargs grayscale))))
+
 (define-method (%display (image <pgm-ascii-image>) (port <port>))
   (format port "#<pgm-ascii-image width: ~a height: ~a grayscale: ~a ~a>"
           (pnm-image-width image)
