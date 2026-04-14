@@ -49,7 +49,8 @@ index for a given @var{image-width}, return the index."
 (define-method (assert-index (image <pnm-image>) (index <number>))
   "Assert that an @var{index} is in the bounds of the @var{image} data.  Throw
 pnm-error if assertion fails.  Return value is undefined."
-  (unless (and (>= index 0) (< index (vector-length (pnm-image-data image))))
+  (unless (and (>= index 0)
+               (< index (* (pnm-image-width image) (pnm-image-height image))))
     (pnm-error "Pixel index out of bounds" image index)))
 
 (define-method (assert-pixel-value (image <pbm-ascii-image>) (value <number>))
