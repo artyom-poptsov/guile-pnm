@@ -1,4 +1,4 @@
-;;; image.scm -- Guile PNM graphics module.
+;;; graphics.scm -- Guile PNM graphics module.
 
 ;; Copyright © 2026 Artyom V. Poptsov <poptsov.artyom@gmail.com>
 ;;
@@ -150,5 +150,3 @@ an @var{image} to the specified @var{value}.  Return value is undefined."
                         value))
 
 ;; graphics.scm ends here.
-
-
