@@ -56,7 +56,12 @@
 
             ;; Converters.
             pnm-image->pbm-binary-image
-            pnm-image->pbm-ascii-image))
+            pnm-image->pbm-ascii-image
+
+            ;; Basic pixel manipulation.
+            cartesian->index
+            assert-index
+            pnm-image-pixel))
 
 
 ;; Helper procedures.
@@ -179,6 +184,34 @@ set and have a proper value."
                     row
                     (+ column 1))))))))
 
+
+(define-method (cartesian->index (image-width <number>)
+                                 (x <number>)
+                                 (y <number>))
+  "Convert @var{x} and @var{y} coordinates on a Cartesian plane into a vector
+index for a given @var{image-width}, return the index."
+  (+ (* y image-width) x))
+
+(define-method (assert-index (image <pnm-image>) (index <number>))
+  "Assert that an @var{index} is in the bounds of the @var{image} data.  Throw
+pnm-error if assertion fails.  Return value is undefined."
+  (unless (and (>= index 0) (< index (vector-length (pnm-image-data image))))
+    (pnm-error "Pixel index out of bounds" image index)))
+
+(define-method (pnm-image-pixel (image <pbm-ascii-image>) (index <number>))
+  "Get a pixel specified by an @var{index} from an @var{image}.  Return the pixel
+as a number or throw a pnm-error on error."
+  (assert-index image index)
+  (vector-ref (pnm-image-data image) index))
+
+(define-method (pnm-image-pixel (image <pbm-ascii-image>)
+                                (x <number>)
+                                (y <number>))
+  "Get a pixel specified by @var{x} and @var{y} coordinates from an @var{image}.
+Return the pixel as a number or throw a pnm-error on error."
+  (pnm-image-pixel image (cartesian->index (pnm-image-width image) x y)))
+
+
 (define-method (pnm-image->pbm-binary-image (image <pbm-ascii-image>))
   "Convert an ASCII (plain) PBM @var{image} to a binary PBM image.  Return a new
 @code{<pbm-binary-image>} instance."

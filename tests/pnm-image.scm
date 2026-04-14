@@ -48,6 +48,49 @@
     (with-output-to-string
       (lambda ()
         (pnm-image->pnm img (current-output-port))))))
+
+;; Pixel manipulation.
+
+(test-equal "cartesian->index"
+  10
+  (cartesian->index 6 4 1))
+
+(test-assert "assert-index: success"
+  (let ((image (make <pbm-ascii-image>
+                 #:width  6
+                 #:height 10
+                 #:commentary "This is an example bitmap of the letter \"J\""
+                 #:data %test-data)))
+    (assert-index image 10)
+    #t))
+
+(test-error "assert-index: failure"
+  'pnm-error
+  (let ((image (make <pbm-ascii-image>
+                 #:width  6
+                 #:height 10
+                 #:commentary "This is an example bitmap of the letter \"J\""
+                 #:data %test-data)))
+    (assert-index image 100)
+    #t))
+
+(test-equal "pnm-image-pixel: index"
+  1
+  (let ((img (make <pbm-ascii-image>
+               #:width  6
+               #:height 10
+               #:commentary "This is an example bitmap of the letter \"J\""
+               #:data %test-data)))
+    (pnm-image-pixel img 10)))
+
+(test-equal "pnm-image-pixel: x, y"
+  1
+  (let ((img (make <pbm-ascii-image>
+               #:width  6
+               #:height 10
+               #:commentary "This is an example bitmap of the letter \"J\""
+               #:data %test-data)))
+    (pnm-image-pixel img 4 1)))
 
 
 ;; PGM
