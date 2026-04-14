@@ -1,6 +1,7 @@
 (use-modules (srfi srfi-64)
              (oop goops)
-             (pnm image))
+             (pnm image)
+             (pnm graphics))
 
 (define %test-name "pnm-image")
 

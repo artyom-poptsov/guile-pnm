@@ -22,6 +22,7 @@ include $(top_srcdir)/build-aux/am/guile.am
 SUBDIRS = core fsm
 
 SOURCES = \
+  graphics.scm \
   image.scm
 
 moddir=$(prefix)/share/guile/site/$(GUILE_EFFECTIVE_VERSION)/pnm/
