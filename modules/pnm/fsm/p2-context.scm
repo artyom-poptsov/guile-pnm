@@ -24,21 +24,14 @@
                             (grayscale . #f)
                             (data      . #f))))
 
-(define (pbm-stanza->data stanza)
-  (list->vector
-   (reverse (map (lambda (element)
-                   (string->number
-                    (list->string (reverse element))))
-                 stanza))))
-
 (define (pgm-set-data ctx pnm)
   (let* ((result (context-result ctx))
          (stanza (context-stanza ctx))
          (buffer (context-buffer ctx))
          (data
           (if (null? buffer)
-              (pbm-stanza->data stanza)
-              (pbm-stanza->data (cons buffer stanza)))))
+              (ascii-stanza->data stanza)
+              (ascii-stanza->data (cons buffer stanza)))))
     (clear-stanza
      (context-result-set ctx
                          (acons 'data data

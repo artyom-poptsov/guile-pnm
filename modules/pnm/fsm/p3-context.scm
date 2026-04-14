@@ -23,21 +23,14 @@
                             (color     . #f)
                             (data      . #f))))
 
-(define (ppm-stanza->data stanza)
-  (list->vector
-   (reverse (map (lambda (element)
-                   (string->number
-                    (list->string (reverse element))))
-                 stanza))))
-
 (define (ppm-set-data ctx pnm)
   (let* ((result (context-result ctx))
          (stanza (context-stanza ctx))
          (buffer (context-buffer ctx))
          (data
           (if (null? buffer)
-              (ppm-stanza->data stanza)
-              (ppm-stanza->data (cons buffer stanza)))))
+              (ascii-stanza->data stanza)
+              (ascii-stanza->data (cons buffer stanza)))))
     (clear-stanza
      (context-result-set ctx
                          (acons 'data data

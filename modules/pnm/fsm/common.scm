@@ -6,6 +6,7 @@
   #:export(throw-magic-number-error
            throw-unexpected-eof
            throw-format-error
+           ascii-stanza->data
            pnm-set-width
            set-width/binary
            pnm-set-height
@@ -31,6 +32,16 @@
 
 (define (none ctx)
   #f)
+
+
+
+(define (ascii-stanza->data stanza)
+  "Convert a PNM ASCII @var{stanza} to a data vector.  Return the vector."
+  (list->vector
+   (reverse (map (lambda (element)
+                   (string->number
+                    (list->string (reverse element))))
+                 stanza))))
 
 
 
