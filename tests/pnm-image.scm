@@ -103,6 +103,22 @@
                #:data %test-data)))
     (pnm-image-pixel img 10)))
 
+(test-equal "pnm-image-pixel: <pbm-binary-image>: index"
+  1
+  (let ((img (make <pbm-binary-image>
+               #:width  4
+               #:height 4
+               #:data #(#b00000000 #b00100000))))
+    (pnm-image-pixel img 10)))
+
+(test-equal "pnm-image-pixel: <pbm-binary-image>: x, y"
+  1
+  (let ((img (make <pbm-binary-image>
+               #:width  4
+               #:height 4
+               #:data #(#b00000000 #b00100000))))
+    (pnm-image-pixel img 2 2)))
+
 (test-equal "pnm-image-pixel: x, y"
   1
   (let ((img (make <pbm-ascii-image>

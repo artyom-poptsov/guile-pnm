@@ -74,6 +74,29 @@ as a number or throw a pnm-error on error."
   (assert-index image index)
   (vector-ref (pnm-image-data image) index))
 
+(define-method (pnm-image-pixel (image <pbm-binary-image>) (index <number>))
+  "Get a pixel specified by an @var{index} from an @var{image}.  Return the pixel
+as a number or throw a pnm-error on error."
+  (assert-index image index)
+  ;;        1  1  1  1  1  1  1  1   1  1  0  0  0  0  0  0
+  ;; bits:  0  1  2  3  4  5  6  7   8  9  10 11 12 13 14 15
+  ;; byte:  0                        1
+  ;; index:                             ^
+  (let* ((byte-index (floor/ index 8))
+         (bit-offset (remainder index 8))
+         (byte       (vector-ref (pnm-image-data image) byte-index)))
+    (if (logbit? (- 7 bit-offset) byte)
+        1
+        0)))
+
+(define-method (pnm-image-pixel (image <pbm-binary-image>)
+                                (x <number>)
+                                (y <number>))
+  "Get a pixel specified by @var{x} and @var{y} coordinates from an @var{image}.
+Return the pixel as a number or throw a pnm-error on error."
+  (pnm-image-pixel image (cartesian->index (pnm-image-width image) x y)))
+
+
 (define-method (pnm-image-pixel (image <pbm-ascii-image>)
                                 (x <number>)
                                 (y <number>))
