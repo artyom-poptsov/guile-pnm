@@ -58,6 +58,12 @@ Throw pnm-error of the assertion fails."
   (unless (or (= value 0) (= value 1))
     (pnm-error "Pixel must be either 0 or 1" image value)))
 
+(define-method (assert-pixel-value (image <pbm-binary-image>) (value <number>))
+  "Assert that a pixel @var{value} is in the required bounds for an @var{image}.
+Throw pnm-error of the assertion fails."
+  (unless (or (= value 0) (= value 1))
+    (pnm-error "Pixel must be either 0 or 1" image value)))
+
 
 ;; Pixel manipulation.
 
