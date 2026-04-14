@@ -89,6 +89,7 @@ This chapter describes the Guile-PNM API.
 @menu
 * PNM::                  High-level procedures to read and write images.
 * PNM Image::            PNM image type.
+* Graphics::             PNM graphics.
 
 @end menu
 
@@ -265,6 +266,50 @@ This class represents a PPM binary image.
 @deffn {Scheme Procedure} pnm-image-color-maximum-value image
 @deffnx {Scheme Procedure} pnm-image-color-maximum-value-set! image
 Get or set a PPM @var{image} color maxiumum value.
+@end deffn
+
+@c -----------------------------------------------------------------------------
+@node Graphics
+@section Graphics
+
+@code{(pnm graphics)} module contains simple pixel manipulation methods.
+
+@deffn  {Method} pnm-image-pixel (image <pbm-ascii-image>) (index <number>)
+@deffnx {Method} pnm-image-pixel (image <pbm-binary-image>) (index <number>)
+Get a pixel specified by an @var{index} from an @var{image}.  Return the pixel
+as a number or throw a pnm-error on error.
+@end deffn
+
+@deffn  {Method} pnm-image-pixel (image <pbm-ascii-image>) @
+                                 (x <number>) @
+                                 (y <number>)
+@deffnx {Method} pnm-image-pixel (image <pbm-binary-image>) @
+                                 (x <number>) @
+                                 (y <number>)
+Get a pixel specified by @var{x} and @var{y} Cartesian coordinates from an
+@var{image}.  Return the pixel as a number or throw a pnm-error on error.
+@end deffn
+
+@deffn  {Method} pnm-image-pixel-set! (image <pbm-ascii-image>) @
+                                      (index <number>) @
+                                      (value <number>)
+@deffnx {Method} pnm-image-pixel-set! (image <pbm-binary-image>) @
+                                      (index <number>) @
+                                      (value <number>)
+Set a pixel specified by @var{index} offset in an @var{image} to the specified
+@var{value}.  Return value is undefined.
+@end deffn
+
+@deffn  {Method} pnm-image-pixel-set! (image <pbm-ascii-image>) @
+                                      (x <number>) @
+                                      (y <number>) @
+                                      (value <number>)
+@deffnx {Method} pnm-image-pixel-set! (image <pbm-binary-image>) @
+                                      (x <number>) @
+                                      (y <number>) @
+                                      (value <number>)
+Set a pixel specified by @var{x} and @var{y} Cartesian coordinates offset in
+an @var{image} to the specified @var{value}.  Return value is undefined.
 @end deffn
 
 @c -----------------------------------------------------------------------------
