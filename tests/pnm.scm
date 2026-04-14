@@ -1,20 +1,12 @@
+(add-to-load-path (getenv "abs_top_srcdir"))
+
 (use-modules (srfi srfi-64)
+             (tests common)
              (pnm)
              (pnm fsm context)
              (pnm fsm pnm)
              (oop goops)
              (pnm image))
-
-(define-method (configure-test-logging! (test-suite-name <string>))
-  (smc-log-init! "file" `((file . ,(string-append test-suite-name "-smc.log")))))
-
-(define %topdir (getenv "abs_top_srcdir"))
-(define %test-p1-file (format #f "~a/tests/image/p1.pbm" %topdir))
-(define %test-p2-file (format #f "~a/tests/image/p2.pgm" %topdir))
-(define %test-p3-file (format #f "~a/tests/image/p3.ppm" %topdir))
-(define %test-p4-file (format #f "~a/tests/image/p4.pbm" %topdir))
-(define %test-p5-file (format #f "~a/tests/image/p5.pgm" %topdir))
-(define %test-p6-file (format #f "~a/tests/image/p6.ppm" %topdir))
 
 (define %test-name "pnm")
 

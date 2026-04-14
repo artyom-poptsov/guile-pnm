@@ -17,6 +17,8 @@
 ## You should have received a copy of the GNU General Public License
 ## along with Guile-PNM.  If not, see <http://www.gnu.org/licenses/>.
 
+include $(top_srcdir)/build-aux/am/guilec
+
 SCM_TESTS = \
   pnm-image.scm \
   pnm.scm
@@ -44,6 +46,7 @@ AM_SCM_LOG_FLAGS = \
 
 EXTRA_DIST = \
   ${SCM_TESTS} \
+  common.scm \
   image/p1.pbm \
   image/p2.pgm \
   image/p3.ppm \
