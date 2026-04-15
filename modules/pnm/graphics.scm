@@ -30,6 +30,7 @@
   #:use-module (pnm core common)
   #:use-module (pnm core error)
   #:use-module (pnm image)
+  #:use-module (srfi srfi-43)
   #:export (assert-index
             assert-pixel-value
             cartesian->index
@@ -78,6 +79,20 @@ Throw pnm-error of the assertion fails."
   (let ((grayscale (pnm-image-grayscale-maximum-value image)))
     (unless (and (>= value 0) (<= value grayscale))
       (pnm-error "Pixel value is out of range" image value))))
+
+(define-method (assert-pixel-value (image <ppm-ascii-image>) (value <vector>))
+  "Assert that a pixel @var{value} is in the required bounds for an @var{image}.
+Throw pnm-error of the assertion fails."
+  (unless (= (vector-length value) 3)
+    (pnm-error "Pixel value must have 3 color components (RGB)" image value))
+  (let ((color-value (pnm-image-color-maximum-value image)))
+    (vector-for-each
+     (lambda (index e)
+       (unless (number? e)
+         (pnm-error "Color value must be a number" image value e))
+       (unless (and (>= e 0) (<= e color-value))
+         (pnm-error "Color value is out of range" image value)))
+     value)))
 
 
 ;; Pixel manipulation.
@@ -142,6 +157,29 @@ as a number or throw a pnm-error on error."
                                 (y <number>))
   "Get a pixel specified by @var{x} and @var{y} coordinates from an @var{image}.
 Return the pixel as a number or throw a pnm-error on error."
+  (pnm-image-pixel image (cartesian->index (pnm-image-width image) x y)))
+
+(define-method (pnm-image-pixel (image <ppm-ascii-image>) (index <number>))
+  "Get a pixel specified by an @var{index} from an @var{image}.  Return the pixel
+as a vector of three numbers representing colors in the RGB triplet or throw a
+pnm-error on error."
+  (assert-index image index)
+  (let ((data (pnm-image-data image)))
+    (let loop ((component 0)
+               (offset    (* index 3))
+               (result    (make-vector 3)))
+      (if (< component 3)
+          (begin
+            (vector-set! result component (vector-ref data offset))
+            (loop (+ component 1) (+ offset 1) result))
+          result))))
+
+(define-method (pnm-image-pixel (image <ppm-ascii-image>)
+                                (x <number>)
+                                (y <number>))
+  "Get a pixel specified by @var{x} and @var{y} coordinates from an @var{image}.
+Return the pixel as a vector of three numbers representing colors in the RGB
+triplet or throw a pnm-error on error."
   (pnm-image-pixel image (cartesian->index (pnm-image-width image) x y)))
 
 (define-method (pnm-image-pixel-set! (image <pbm-ascii-image>)
@@ -223,6 +261,33 @@ an @var{image} to the specified @var{value}.  Return value is undefined."
                                      (value <number>))
   "Set a pixel specified by @var{x} and @var{y} Cartesian coordinates offset in
 an @var{image} to the specified @var{value}.  Return value is undefined."
+  (pnm-image-pixel-set! image
+                        (cartesian->index (pnm-image-width image) x y)
+                        value))
+
+(define-method (pnm-image-pixel-set! (image <ppm-ascii-image>)
+                                     (index <number>)
+                                     (value <vector>))
+  "Set a pixel specified by @var{index} offset in an @var{image} to the specified
+@var{value}.  @var{value} must be a vector of 3 components, representing color
+values in RGB format.  Return value is undefined."
+  (assert-index image index)
+  (assert-pixel-value image value)
+  (let ((data (pnm-image-data image)))
+    (let loop ((component 0)
+               (offset    (* index 3)))
+      (unless (= component 3)
+        (vector-set! data offset (vector-ref value component))
+        (loop (+ component 1) (+ offset 1))))))
+
+(define-method (pnm-image-pixel-set! (image <pgm-ascii-image>)
+                                     (x <number>)
+                                     (y <number>)
+                                     (value <number>))
+  "Set a pixel specified by @var{x} and @var{y} Cartesian coordinates offset in
+an @var{image} to the specified @var{value}.  @var{value} must be a vector of
+3 components, representing color values in RGB format.  Return value is
+undefined."
   (pnm-image-pixel-set! image
                         (cartesian->index (pnm-image-width image) x y)
                         value))

@@ -210,6 +210,28 @@
                                #x50 #x60 #x70 #x80)))))
     (pnm-image-pixel image 1 1)))
 
+(test-equal "pnm-image-pixel: <ppm-ascii-image>: index"
+  #(#x00 #xFF #x00)
+  (let ((image (make <ppm-ascii-image>
+                 #:color-maxiumum-value 255
+                 #:width  2
+                 #:height 2
+                 #:data (list->vector
+                         (list #xFF #x00 #x00 #x00 #xFF #x00
+                               #x00 #x00 #xFF #xFF  #xFF #xFF)))))
+    (pnm-image-pixel image 1)))
+
+(test-equal "pnm-image-pixel: <ppm-ascii-image>: index"
+  #(#x00 #xFF #x00)
+  (let ((image (make <ppm-ascii-image>
+                 #:color-maxiumum-value 255
+                 #:width  2
+                 #:height 2
+                 #:data (list->vector
+                         (list #xFF #x00 #x00 #x00 #xFF #x00
+                               #x00 #x00 #xFF #xFF  #xFF #xFF)))))
+    (pnm-image-pixel image 1 0)))
+
 (test-equal "pnm-image-pixel-set!: <pgm-ascii-image>: index"
   #xFF
   (let ((image (make <pgm-ascii-image>
@@ -269,6 +291,18 @@
                                #x50 #x60 #x70 #x80)))))
     (pnm-image-pixel-set! image 1 1 #xFF)
     (pnm-image-pixel image 5)))
+
+(test-equal "pnm-image-pixel-set!: <ppm-ascii-image>: index"
+  #(#xAA #xAA #xAA)
+  (let ((image (make <ppm-ascii-image>
+                 #:color-maxiumum-value 255
+                 #:width  2
+                 #:height 2
+                 #:data (list->vector
+                         (list #xFF #x00 #x00 #x00 #xFF #x00
+                               #x00 #x00 #xFF #xFF #xFF #xFF)))))
+    (pnm-image-pixel-set! image 1 #(#xAA #xAA #xAA))
+    (pnm-image-pixel image 1)))
 
 
 ;; PGM
