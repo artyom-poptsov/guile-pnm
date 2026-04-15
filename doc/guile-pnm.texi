@@ -202,12 +202,12 @@ This class represents a PBM binary image.
 
 @end deftp
 
-@deffn {Method} pnm-image->pbm-binary-image (image <pbm-ascii-image>)
+@deffn {Method} pbm-ascii-image->pbm-binary-image (image <pbm-ascii-image>)
 Convert an ASCII (plain) PBM @var{image} to a binary PBM image.  Return a new
 @code{<pbm-binary-image>} instance.
 @end deffn
 
-@deffn {Method} pnm-image->pbm-ascii-image (image <pbm-binary-image>)
+@deffn {Method} pbm-binary-image->pbm-ascii-image (image <pbm-binary-image>)
 Convert an binary PBM @var{image} to an ASCII (plain) PBM image.  Return a new
 @code{<pbm-ascii-image>} instance.
 @end deffn
@@ -276,8 +276,17 @@ Get or set a PPM @var{image} color maxiumum value.
 
 @deffn  {Method} pnm-image-pixel (image <pbm-ascii-image>) (index <number>)
 @deffnx {Method} pnm-image-pixel (image <pbm-binary-image>) (index <number>)
+@deffnx {Method} pnm-image-pixel (image <pgm-ascii-image>) (index <number>)
+@deffnx {Method} pnm-image-pixel (image <pgm-binary-image>) (index <number>)
 Get a pixel specified by an @var{index} from an @var{image}.  Return the pixel
 as a number or throw a pnm-error on error.
+@end deffn
+
+@deffn {Method} pnm-image-pixel (image <ppm-ascii-image>) (index <number>)
+@deffnx {Method} pnm-image-pixel (image <ppm-binary-image>) (index <number>)
+Get a pixel specified by an @var{index} from an @var{image}.  Return the pixel
+as a vector of three numbers representing colors in the RGB triplet or throw a
+pnm-error on error.
 @end deffn
 
 @deffn  {Method} pnm-image-pixel (image <pbm-ascii-image>) @
@@ -296,6 +305,17 @@ Get a pixel specified by @var{x} and @var{y} Cartesian coordinates from an
 @var{image}.  Return the pixel as a number or throw a pnm-error on error.
 @end deffn
 
+@deffn  {Method} pnm-image-pixel (image <ppm-ascii-image>) @
+                                 (x <number>) @
+                                 (y <number>)
+@deffnx {Method} pnm-image-pixel (image <ppm-binary-image>) @
+                                 (x <number>) @
+                                 (y <number>)
+Get a pixel specified by @var{x} and @var{y} coordinates from an @var{image}.
+Return the pixel as a vector of three numbers representing colors in the RGB
+triplet or throw a pnm-error on error.
+@end deffn
+
 @deffn  {Method} pnm-image-pixel-set! (image <pbm-ascii-image>) @
                                       (index <number>) @
                                       (value <number>)
@@ -310,6 +330,17 @@ Get a pixel specified by @var{x} and @var{y} Cartesian coordinates from an
                                       (value <number>)
 Set a pixel specified by @var{index} offset in an @var{image} to the specified
 @var{value}.  Return value is undefined.
+@end deffn
+
+@deffn  {Method} pnm-image-pixel-set! (image <ppm-ascii-image>) @
+                                      (index <number>) @
+                                      (value <number>)
+@deffnx {Method} pnm-image-pixel-set! (image <ppm-binary-image>) @
+                                      (index <number>) @
+                                      (value <number>)
+Set a pixel specified by @var{index} offset in an @var{image} to the specified
+@var{value}.  @var{value} must be a vector of 3 components, representing color
+values in RGB format.  Return value is undefined.
 @end deffn
 
 @deffn  {Method} pnm-image-pixel-set! (image <pbm-ascii-image>) @
@@ -330,6 +361,20 @@ Set a pixel specified by @var{index} offset in an @var{image} to the specified
                                       (value <number>)
 Set a pixel specified by @var{x} and @var{y} Cartesian coordinates offset in
 an @var{image} to the specified @var{value}.  Return value is undefined.
+@end deffn
+
+@deffn  {Method} pnm-image-pixel-set! (image <pbm-ascii-image>) @
+                                      (x <number>) @
+                                      (y <number>) @
+                                      (value <number>)
+@deffnx {Method} pnm-image-pixel-set! (image <pbm-binary-image>) @
+                                      (x <number>) @
+                                      (y <number>) @
+                                      (value <number>)
+Set a pixel specified by @var{x} and @var{y} Cartesian coordinates offset in
+an @var{image} to the specified @var{value}.  @var{value} must be a vector of
+3 components, representing color values in RGB format.  Return value is
+undefined.
 @end deffn
 
 @c -----------------------------------------------------------------------------
