@@ -221,7 +221,7 @@
                                #x00 #x00 #xFF #xFF  #xFF #xFF)))))
     (pnm-image-pixel image 1)))
 
-(test-equal "pnm-image-pixel: <ppm-ascii-image>: index"
+(test-equal "pnm-image-pixel: <ppm-ascii-image>: x, y"
   #(#x00 #xFF #x00)
   (let ((image (make <ppm-ascii-image>
                  #:color-maxiumum-value 255
