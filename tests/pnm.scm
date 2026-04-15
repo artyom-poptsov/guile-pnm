@@ -148,6 +148,12 @@
                        #:debug-mode? #t)))
     (vector-length (pnm-image-data img))))
 
+(test-equal "pnm->scm: p3 - data check"
+  #(255 0 0 0 255 0 0 0 255 255 255 0 255 255 255 0 0 0)
+  (let ((img (pnm->scm (open-input-file %test-p3-file)
+                       #:debug-mode? #t)))
+    (pnm-image-data img)))
+
 (test-assert "pnm->scm: p4"
   (let ((img (pnm->scm (open-input-file %test-p4-file)
                        #:debug-mode? #t)))
