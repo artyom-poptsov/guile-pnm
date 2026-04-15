@@ -55,8 +55,8 @@
             pnm-image->pnm
 
             ;; Converters.
-            pnm-image->pbm-binary-image
-            pnm-image->pbm-ascii-image
+            pbm-ascii-image->pbm-binary-image
+            pbm-binary-image->pbm-ascii-image
 
             ;; Basic pixel manipulation.
             cartesian->index
@@ -185,7 +185,7 @@ set and have a proper value."
                     (+ column 1))))))))
 
 
-(define-method (pnm-image->pbm-binary-image (image <pbm-ascii-image>))
+(define-method (pbm-ascii-image->pbm-binary-image (image <pbm-ascii-image>))
   "Convert an ASCII (plain) PBM @var{image} to a binary PBM image.  Return a new
 @code{<pbm-binary-image>} instance."
   (define (ascii-data->binary-data data width)
@@ -268,7 +268,7 @@ set and have a proper value."
     (pnm-print-dimensions port width height)
     (put-bytevector port (u8-list->bytevector (vector->list data)))))
 
-(define-method (pnm-image->pbm-ascii-image (image <pbm-binary-image>))
+(define-method (pbm-binary-image->pbm-ascii-image (image <pbm-binary-image>))
   "Convert an binary PBM @var{image} to an ASCII (plain) PBM image.  Return a new
 @code{<pbm-ascii-image>} instance."
   (define (binary-data->ascii-data data width)

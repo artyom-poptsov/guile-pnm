@@ -182,8 +182,8 @@
   %test-pbm
   (let* ((img (pnm->scm (open-input-file %test-p1-file)
                         #:debug-mode? #t))
-         (bin-image (pnm-image->pbm-binary-image img))
-         (ascii-image (pnm-image->pbm-ascii-image bin-image)))
+         (bin-image (pbm-ascii-image->pbm-binary-image img))
+         (ascii-image (pbm-binary-image->pbm-ascii-image bin-image)))
     (with-output-to-string
       (lambda ()
         (scm->pnm ascii-image (current-output-port))))))
