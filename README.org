@@ -9,6 +9,10 @@ version. Please see =COPYING= file for the terms of GNU General Public License.
 
 ** Installation
 *** GNU Guix
+ #+BEGIN_EXAMPLE shell
+$ guix install guile-pnm
+ #+END_EXAMPLE
+
 Development version from =guix.scm=:
 #+BEGIN_EXAMPLE shell
 $ guix build -f guix.scm
