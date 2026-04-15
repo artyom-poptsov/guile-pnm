@@ -232,6 +232,28 @@
                                #x00 #x00 #xFF #xFF  #xFF #xFF)))))
     (pnm-image-pixel image 1 0)))
 
+(test-equal "pnm-image-pixel: <ppm-binary-image>: index"
+  #(#x00 #xFF #x00)
+  (let ((image (make <ppm-binary-image>
+                 #:color-maxiumum-value 255
+                 #:width  2
+                 #:height 2
+                 #:data (list->vector
+                         (list #xFF #x00 #x00 #x00 #xFF #x00
+                               #x00 #x00 #xFF #xFF  #xFF #xFF)))))
+    (pnm-image-pixel image 1)))
+
+(test-equal "pnm-image-pixel: <ppm-binary-image>: x, y"
+  #(#x00 #xFF #x00)
+  (let ((image (make <ppm-binary-image>
+                 #:color-maxiumum-value 255
+                 #:width  2
+                 #:height 2
+                 #:data (list->vector
+                         (list #xFF #x00 #x00 #x00 #xFF #x00
+                               #x00 #x00 #xFF #xFF  #xFF #xFF)))))
+    (pnm-image-pixel image 1 0)))
+
 (test-equal "pnm-image-pixel-set!: <pgm-ascii-image>: index"
   #xFF
   (let ((image (make <pgm-ascii-image>
