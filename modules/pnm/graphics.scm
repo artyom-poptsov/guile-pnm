@@ -65,6 +65,20 @@ Throw pnm-error of the assertion fails."
   (unless (or (= value 0) (= value 1))
     (pnm-error "Pixel must be either 0 or 1" image value)))
 
+(define-method (assert-pixel-value (image <pgm-ascii-image>) (value <number>))
+  "Assert that a pixel @var{value} is in the required bounds for an @var{image}.
+Throw pnm-error of the assertion fails."
+  (let ((grayscale (pnm-image-grayscale-maximum-value image)))
+    (unless (and (>= value 0) (<= value grayscale))
+      (pnm-error "Pixel value is out of range" image value))))
+
+(define-method (assert-pixel-value (image <pgm-binary-image>) (value <number>))
+  "Assert that a pixel @var{value} is in the required bounds for an @var{image}.
+Throw pnm-error of the assertion fails."
+  (let ((grayscale (pnm-image-grayscale-maximum-value image)))
+    (unless (and (>= value 0) (<= value grayscale))
+      (pnm-error "Pixel value is out of range" image value))))
+
 
 ;; Pixel manipulation.
 
@@ -98,6 +112,32 @@ Return the pixel as a number or throw a pnm-error on error."
 
 
 (define-method (pnm-image-pixel (image <pbm-ascii-image>)
+                                (x <number>)
+                                (y <number>))
+  "Get a pixel specified by @var{x} and @var{y} coordinates from an @var{image}.
+Return the pixel as a number or throw a pnm-error on error."
+  (pnm-image-pixel image (cartesian->index (pnm-image-width image) x y)))
+
+(define-method (pnm-image-pixel (image <pgm-ascii-image>) (index <number>))
+  "Get a pixel specified by an @var{index} from an @var{image}.  Return the pixel
+as a number or throw a pnm-error on error."
+  (assert-index image index)
+  (vector-ref (pnm-image-data image) index))
+
+(define-method (pnm-image-pixel (image <pgm-ascii-image>)
+                                (x <number>)
+                                (y <number>))
+  "Get a pixel specified by @var{x} and @var{y} coordinates from an @var{image}.
+Return the pixel as a number or throw a pnm-error on error."
+  (pnm-image-pixel image (cartesian->index (pnm-image-width image) x y)))
+
+(define-method (pnm-image-pixel (image <pgm-binary-image>) (index <number>))
+  "Get a pixel specified by an @var{index} from an @var{image}.  Return the pixel
+as a number or throw a pnm-error on error."
+  (assert-index image index)
+  (vector-ref (pnm-image-data image) index))
+
+(define-method (pnm-image-pixel (image <pgm-binary-image>)
                                 (x <number>)
                                 (y <number>))
   "Get a pixel specified by @var{x} and @var{y} coordinates from an @var{image}.
@@ -140,6 +180,44 @@ an @var{image} to the specified @var{value}.  Return value is undefined."
   (vector-set! (pnm-image-data image) byte-index byte)))
 
 (define-method (pnm-image-pixel-set! (image <pbm-binary-image>)
+                                     (x <number>)
+                                     (y <number>)
+                                     (value <number>))
+  "Set a pixel specified by @var{x} and @var{y} Cartesian coordinates offset in
+an @var{image} to the specified @var{value}.  Return value is undefined."
+  (pnm-image-pixel-set! image
+                        (cartesian->index (pnm-image-width image) x y)
+                        value))
+
+(define-method (pnm-image-pixel-set! (image <pgm-ascii-image>)
+                                     (index <number>)
+                                     (value <number>))
+  "Set a pixel specified by @var{index} offset in an @var{image} to the specified
+@var{value}.  Return value is undefined."
+  (assert-index image index)
+  (assert-pixel-value image value)
+  (vector-set! (pnm-image-data image) index value))
+
+(define-method (pnm-image-pixel-set! (image <pgm-ascii-image>)
+                                     (x <number>)
+                                     (y <number>)
+                                     (value <number>))
+  "Set a pixel specified by @var{x} and @var{y} Cartesian coordinates offset in
+an @var{image} to the specified @var{value}.  Return value is undefined."
+  (pnm-image-pixel-set! image
+                        (cartesian->index (pnm-image-width image) x y)
+                        value))
+
+(define-method (pnm-image-pixel-set! (image <pgm-binary-image>)
+                                     (index <number>)
+                                     (value <number>))
+  "Set a pixel specified by @var{index} offset in an @var{image} to the specified
+@var{value}.  Return value is undefined."
+  (assert-index image index)
+  (assert-pixel-value image value)
+  (vector-set! (pnm-image-data image) index value))
+
+(define-method (pnm-image-pixel-set! (image <pgm-binary-image>)
                                      (x <number>)
                                      (y <number>)
                                      (value <number>))

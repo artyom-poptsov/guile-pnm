@@ -286,6 +286,12 @@ as a number or throw a pnm-error on error.
 @deffnx {Method} pnm-image-pixel (image <pbm-binary-image>) @
                                  (x <number>) @
                                  (y <number>)
+@deffnx {Method} pnm-image-pixel (image <pgm-ascii-image>) @
+                                 (x <number>) @
+                                 (y <number>)
+@deffnx {Method} pnm-image-pixel (image <pgm-binary-image>) @
+                                 (x <number>) @
+                                 (y <number>)
 Get a pixel specified by @var{x} and @var{y} Cartesian coordinates from an
 @var{image}.  Return the pixel as a number or throw a pnm-error on error.
 @end deffn
@@ -294,6 +300,12 @@ Get a pixel specified by @var{x} and @var{y} Cartesian coordinates from an
                                       (index <number>) @
                                       (value <number>)
 @deffnx {Method} pnm-image-pixel-set! (image <pbm-binary-image>) @
+                                      (index <number>) @
+                                      (value <number>)
+@deffnx {Method} pnm-image-pixel-set! (image <pgm-ascii-image>) @
+                                      (index <number>) @
+                                      (value <number>)
+@deffnx {Method} pnm-image-pixel-set! (image <pgm-binary-image>) @
                                       (index <number>) @
                                       (value <number>)
 Set a pixel specified by @var{index} offset in an @var{image} to the specified
@@ -305,6 +317,14 @@ Set a pixel specified by @var{index} offset in an @var{image} to the specified
                                       (y <number>) @
                                       (value <number>)
 @deffnx {Method} pnm-image-pixel-set! (image <pbm-binary-image>) @
+                                      (x <number>) @
+                                      (y <number>) @
+                                      (value <number>)
+@deffnx {Method} pnm-image-pixel-set! (image <pgm-ascii-image>) @
+                                      (x <number>) @
+                                      (y <number>) @
+                                      (value <number>)
+@deffnx {Method} pnm-image-pixel-set! (image <pgm-binary-image>) @
                                       (x <number>) @
                                       (y <number>) @
                                       (value <number>)
