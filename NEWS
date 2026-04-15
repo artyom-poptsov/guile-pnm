@@ -7,6 +7,20 @@ Copyright (C) Artyom V. Poptsov <poptsov.artyom@gmail.com>
   are permitted in any medium without royalty provided the copyright
   notice and this notice are preserved.
 
+* Changes in version 0.2.0 (2026-04-15)
+** New =(pnm graphics)= module
+This module contains some basic pixel manipulation for PNM images, namely:
+- =pnm-image-pixel= allows to get a pixel value from an image.
+- =pnm-image-pixel-set!= allows to set a pixel to a specified value in an
+  image.
+** =README.org=: Fix a typo and update
+Fix a typo and add a command example for installing Guile-PNM from the GNU
+Guix repository.
+** =(pnm image)=
+*** =pnm-image->pbm-binary-image=: Rename                        :API_CHANGE:
+Rename =pnm-image->pbm-binary-image= to =pbm-ascii-image->pbm-binary-image=.
+*** =pnm-image->pbm-ascii-image=: Rename                         :API_CHANGE:
+Rename =pnm-image->pbm-ascii-image= to =pbm-binary-image->pbm-ascii-image=.
 * Changes in version 0.1.0 (2026-04-13)
 ** Release of the first version of Guile-PNM
 
