@@ -21,7 +21,8 @@ include $(top_srcdir)/build-aux/am/guilec
 
 SCM_TESTS = \
   pnm-image.scm \
-  pnm.scm
+  pnm.scm \
+  graphics.scm
 
 TESTS = ${SCM_TESTS}
 
