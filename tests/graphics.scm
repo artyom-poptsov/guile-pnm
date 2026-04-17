@@ -67,6 +67,54 @@
     (assert-pixel-value image 10)
     #t))
 
+(test-assert "assert-pixel-value: <pgm-ascii-image>: success"
+  (let ((image (make <pgm-ascii-image>
+                 #:width  6
+                 #:height 10
+                 #:grayscale-maxiumum-value 16
+                 #:data %test-data)))
+    (assert-pixel-value image 8)
+    #t))
+
+(test-error "assert-pixel-value: <pgm-ascii-image>: failure"
+  'pnm-error
+  (let ((image (make <pbm-ascii-image>
+                 #:width  6
+                 #:height 10
+                 #:grayscale-maxiumum-value 16
+                 #:data %test-data)))
+    (assert-pixel-value image 32)
+    #t))
+
+(test-assert "assert-pixel-value: <ppm-ascii-image>: success"
+  (let ((image (make <ppm-ascii-image>
+                 #:width  6
+                 #:height 10
+                 #:grayscale-maxiumum-value 16
+                 #:data %test-data)))
+    (assert-pixel-value image #(8 8 8))
+    #t))
+
+(test-error "assert-pixel-value: <ppm-ascii-image>: failure (vector length)"
+  'pnm-error
+  (let ((image (make <ppm-ascii-image>
+                 #:width  6
+                 #:height 10
+                 #:color-maxiumum-value 16
+                 #:data %test-data)))
+    (assert-pixel-value image #(8))
+    #t))
+
+(test-error "assert-pixel-value: <ppm-ascii-image>: failure (color depth)"
+  'pnm-error
+  (let ((image (make <ppm-ascii-image>
+                 #:width  6
+                 #:height 10
+                 #:color-maxiumum-value 16
+                 #:data %test-data)))
+    (assert-pixel-value image #(32 32 32))
+    #t))
+
 
 ;; Pixel manipulation.
 
