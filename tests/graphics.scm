@@ -29,7 +29,7 @@
   10
   (cartesian->index 6 4 1))
 
-(test-assert "assert-index: success"
+(test-assert "assert-index: <pbm-ascii-image>: success"
   (let ((image (make <pbm-ascii-image>
                  #:width  6
                  #:height 10
@@ -38,7 +38,7 @@
     (assert-index image 10)
     #t))
 
-(test-error "assert-index: failure"
+(test-error "assert-index: <pbm-ascii-image>: failure"
   'pnm-error
   (let ((image (make <pbm-ascii-image>
                  #:width  6
@@ -48,7 +48,7 @@
     (assert-index image 100)
     #t))
 
-(test-assert "assert-pixel-value: success"
+(test-assert "assert-pixel-value: <pbm-ascii-image>: success"
   (let ((image (make <pbm-ascii-image>
                  #:width  6
                  #:height 10
@@ -57,7 +57,7 @@
     (assert-pixel-value image 1)
     #t))
 
-(test-error "assert-pixel-value: failure"
+(test-error "assert-pixel-value: <pbm-ascii-image>: failure"
   'pnm-error
   (let ((image (make <pbm-ascii-image>
                  #:width  6
@@ -70,7 +70,7 @@
 
 ;; Pixel manipulation.
 
-(test-equal "pnm-image-pixel: index"
+(test-equal "pnm-image-pixel: <pbm-ascii-image>: index"
   1
   (let ((img (make <pbm-ascii-image>
                #:width  6
@@ -95,7 +95,7 @@
                #:data #(#b00000000 #b00100000))))
     (pnm-image-pixel img 2 2)))
 
-(test-equal "pnm-image-pixel: x, y"
+(test-equal "pnm-image-pixel: <pbm-ascii-image>: x, y"
   1
   (let ((img (make <pbm-ascii-image>
                #:width  6
@@ -104,7 +104,7 @@
                #:data %test-data)))
     (pnm-image-pixel img 4 1)))
 
-(test-equal "pnm-image-pixel-set!: index"
+(test-equal "pnm-image-pixel-set!: <pbm-ascii-image>: index"
   0
   (let ((image (make <pbm-ascii-image>
                  #:width  6
@@ -114,7 +114,7 @@
     (pnm-image-pixel-set! image 10 0)
     (pnm-image-pixel image 4 1)))
 
-(test-equal "pnm-image-pixel-set!: x, y"
+(test-equal "pnm-image-pixel-set!: <pbm-ascii-image>: x, y"
   0
   (let ((image (make <pbm-ascii-image>
                  #:width  6
