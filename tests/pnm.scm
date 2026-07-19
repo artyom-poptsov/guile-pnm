@@ -168,6 +168,12 @@
       (lambda ()
         (scm->pnm img (current-output-port))))))
 
+(test-equal "pnm->scm: p5 - GNU image"
+  '(495 . 486)
+  (let ((img (pnm->scm (open-input-file %test-p5-gnu-file)
+                       #:debug-mode? #t)))
+    (cons (pnm-image-width img) (pnm-image-height img))))
+
 (test-assert "pnm->scm: p6"
   (let ((img (pnm->scm (open-input-file %test-p6-file)
                        #:debug-mode? #t)))

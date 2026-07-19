@@ -8,6 +8,7 @@
             %test-p3-file
             %test-p4-file
             %test-p5-file
+            %test-p5-gnu-file
             %test-p6-file))
 
 
@@ -23,6 +24,7 @@
 (define %test-p3-file (format #f "~a/tests/image/p3.ppm" %topdir))
 (define %test-p4-file (format #f "~a/tests/image/p4.pbm" %topdir))
 (define %test-p5-file (format #f "~a/tests/image/p5.pgm" %topdir))
+(define %test-p5-gnu-file (format #f "~a/tests/image/p5-gnu.pgm" %topdir))
 (define %test-p6-file (format #f "~a/tests/image/p6.ppm" %topdir))
 
 ;; common.scm ends here.
