@@ -53,6 +53,7 @@ EXTRA_DIST = \
   image/p3.ppm \
   image/p4.pbm \
   image/p5.pgm \
+  image/p5-gnu.pgm \
   image/p6.ppm
 
 CLEANFILES = \
