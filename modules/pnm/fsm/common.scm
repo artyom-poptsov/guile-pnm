@@ -60,13 +60,25 @@
 
 
 
+(define %zero-value (char->integer #\0))
+
+(define (list->number char-list)
+  "Convert a list of digit characters to a number.  The sequence of digits must
+be in the reverse order, e.g. 255 must be passed as '(#\5 #\5 #\2)."
+  (let loop ((lst char-list)
+             (multiplier 1)
+             (result 0))
+    (if (null? lst)
+        result
+        (let ((n (- (char->integer (car lst)) %zero-value)))
+          (loop (cdr lst)
+                (* multiplier 10)
+                (+ result (* n multiplier)))))))
+
 (define (ascii-stanza->data stanza)
   "Convert a PNM ASCII @var{stanza} to a data vector.  Return the vector."
-  (list->vector
-   (reverse (map (lambda (element)
-                   (string->number
-                    (list->string (reverse element))))
-                 stanza))))
+  (let ((results (map list->number stanza)))
+    (list->vector (reverse results))))
 
 
 
