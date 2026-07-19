@@ -64,7 +64,7 @@
 
 (define (list->number char-list)
   "Convert a list of digit characters to a number.  The sequence of digits must
-be in the reverse order, e.g. 255 must be passed as '(#\5 #\5 #\2)."
+be in the reverse order, e.g. 255 must be passed as '(#\\5 #\\5 #\\2)."
   (let loop ((lst char-list)
              (multiplier 1)
              (result 0))
